@@ -1,7 +1,9 @@
 import React from 'react';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { StyleSheet, Text, View } from 'react-native';
-
+import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+ 
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
@@ -11,7 +13,7 @@ export default class Header extends React.Component {
             <View style={styles.container}>
                 <Text style={styles.text}>{this.props.title}</Text>
                 <Menu>
-                    <MenuTrigger><Text style={styles.text}>Options</Text></MenuTrigger>
+                    <MenuTrigger><FontAwesomeIcon icon={faEllipsisV} size={24}/></MenuTrigger>
                     <MenuOptions>
                         <MenuOption onSelect={() => console.log("a")} text="a" />
                         <MenuOption onSelect={() => console.log("b")} text="b" />
@@ -25,7 +27,7 @@ export default class Header extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 150,
+    height: 100,
     flexDirection: "row",
     backgroundColor: '#fff',
     alignItems: 'center',
