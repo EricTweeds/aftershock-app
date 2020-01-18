@@ -1,19 +1,32 @@
 import React from 'react';
-import { MenuProvider } from 'react-native-popup-menu';
+import { StyleSheet, View } from 'react-native';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider, connect } from 'react-redux';
+import axios from 'axios';
+import axiosMiddleware from 'redux-axios-middleware';
+
+import reducer from "./reducer";
+
 import Login from "./Containers/login";
 import Header from './Components/header';
 import Players from './Containers/players';
-import { StyleSheet, Text, View } from 'react-native';
+
+const client = axios.create({
+  baseURL: "http://aftershock-api.herokuapp.com",
+  responseType: "json"
+});
+
+const store = createStore(reducer, applyMiddleware(axiosMiddleware(client)));
 
 export default function App() {
   return (
-    <MenuProvider>
+    <Provider store={store}>
       <View style={styles.container}>
         {/* <Header title="Players" />
         <Players /> */}
         <Login />
       </View>
-    </MenuProvider>
+    </Provider>
   );
 }
 

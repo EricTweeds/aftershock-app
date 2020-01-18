@@ -1,12 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, KeyboardAvoidingView } from 'react-native';
+import { connect } from 'react-redux';
 
-export default class Login extends React.Component {
+import { submitLogin } from '../reducer.js';
+
+class Login extends React.Component {
     constructor(props) {
         super(props);
     }
     onSignIn(e) {
-        console.log(this.state.username, this.state.password);
+        this.props.submitLogin(this.state.username, this.state.password);
     }
     onUsernameChange(username) {
         this.setState({username});
@@ -15,6 +18,7 @@ export default class Login extends React.Component {
         this.setState({password});
     }
     render() {
+        let isLoading = this.props.loading ? true : false;
         return (
             <KeyboardAvoidingView style={styles.container} behavior="padding">
                 <View style={styles.loginCard}>
@@ -26,6 +30,7 @@ export default class Login extends React.Component {
                             autoCompleteType="username"
                             textContentType="username"
                             onChangeText={this.onUsernameChange.bind(this)}
+                            editable={!isLoading}
                         />
                     </View>
                     <View style={styles.inputRow}>
@@ -36,17 +41,30 @@ export default class Login extends React.Component {
                             textContentType="password"
                             onChangeText={this.onPasswordChange.bind(this)}
                             secureTextEntry={true}
+                            editable={!isLoading}
+                            autoCapitalize='none'
                         />
                     </View>
                     <View style={styles.buttons}>
                         <Button title="Register" color="#d3d3d3" />
-                        <Button onPress={this.onSignIn.bind(this)} title="Sign In" />
+                        <Button onPress={this.onSignIn.bind(this)} title="Sign In" disabled={isLoading}/>
                     </View>
+                    <Text>{this.props.error}</Text>
                 </View>
             </KeyboardAvoidingView>
         );
     }
 };
+
+const mapStateToProps = state => {
+    return { login: state.login, loading: state.loading, error: state.error };
+};
+
+const mapDispatchToProps = {
+    submitLogin
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   container: {
