@@ -18,6 +18,9 @@ class Login extends React.Component {
         this.setState({password});
     }
     render() {
+        if (this.props.login) {
+            this.props.navigation.navigate('Players');
+        }
         let isLoading = this.props.loading ? true : false;
         return (
             <KeyboardAvoidingView style={styles.container} behavior="padding">

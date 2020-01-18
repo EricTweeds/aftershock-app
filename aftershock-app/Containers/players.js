@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Header from '../Components/header';
 import Card from "../Components/card";
 
 const props = {
@@ -60,10 +61,13 @@ export default class Players extends React.Component {
     }
     render() {
         return (
-            <View style={styles.container}>
-                {props.players.map((player, i) => {
-                    return (<Card {...player} key={"player-" + i}/>);
-                })}
+            <View>
+                <Header title="Players" />
+                <View style={styles.container}>
+                    {props.players.map((player, i) => {
+                        return (<Card {...player} key={"player-" + i}/>);
+                    })}
+                </View>
             </View>
         );
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from 'react-native-popup-menu';
 import { StyleSheet, Text, View } from 'react-native';
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";

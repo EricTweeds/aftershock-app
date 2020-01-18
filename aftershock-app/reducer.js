@@ -7,7 +7,7 @@ export default function reducer(state = { login: false }, action) {
         case POST_LOGIN:
             return {...state, loading: true};
         case POST_LOGIN_SUCCESS:
-            return { ...state, login: action.payload.success, loading: false, error: "" };
+            return { ...state, login: action.payload.data.success, loading: false, error: "" };
         case POST_LOGIN_FAIL:
             return { ...state, loading: false, error: "Username or Password not found"}
         default:
