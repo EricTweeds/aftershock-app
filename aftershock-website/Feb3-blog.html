@@ -1,0 +1,304 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="x-ua-compatible" content="ie=edge">
+   <title>AfterShock</title>
+   <meta name="description" content="">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+   <!-- <link rel="manifest" href="site.webmanifest"> -->
+   <!-- Place favicon.ico in the root directory -->
+
+   <!-- CSS here -->
+   <link rel="stylesheet" href="css/bootstrap.min.css">
+   <link rel="stylesheet" href="css/owl.carousel.min.css">
+   <link rel="stylesheet" href="css/magnific-popup.css">
+   <link rel="stylesheet" href="css/font-awesome.min.css">
+   <link rel="stylesheet" href="css/themify-icons.css">
+   <link rel="stylesheet" href="css/nice-select.css">
+   <link rel="stylesheet" href="css/flaticon.css">
+   <link rel="stylesheet" href="css/gijgo.css">
+   <link rel="stylesheet" href="css/animate.min.css">
+   <link rel="stylesheet" href="css/slicknav.css">
+   <link rel="stylesheet" href="css/style.css">
+   <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+</head>
+
+<body>
+   <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+    <!-- header-start, leave this section -->
+    <header>
+        <div class="header-area ">
+            <div id="sticky-header" class="main-header-area">
+                <div class="container-fluid p-0">
+                    <div class="row align-items-center no-gutters">
+                        <div class="col-xl-2 col-lg-2">
+                            <div class="logo-img">
+                                <a href="index.html" style="color: #FFF; font-family: overlock; font-size:3rem;">
+                                    AfterShock
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-8">
+                            <div class="main-menu  d-none d-lg-block text-center">
+                                <nav>
+                                    <ul id="navigation">
+                                        <li><a class="active" href="index.html">Home</a></li>
+                                        <li><a href="about.html">About</a></li>
+                                        <li><a href="blog.html">Blog</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 d-none d-lg-block">
+                            <div class="log_chat_area d-flex align-items-end">
+                                <a href="#" data-scroll-nav="0" class="say_hi">Say Hello</a>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header-end -->
+ 
+  <!-- bradcam_area  -->
+  <div class="bradcam_area breadcam_bg_3">
+   <div class="container">
+     <div class="row">
+         <div class="col-xl-12">
+             <div class="bradcam_text">
+                 <h3>Weekly Blog #2</h3>
+             </div>
+         </div>
+     </div>
+   </div>
+ </div>
+ <!-- /bradcam_area  -->
+
+   <!--================Blog Area, This is what you want to edit =================-->
+   <section class="blog_area single-post-area section-padding">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-8 posts-list">
+               <div class="single-post">
+                  <div class="feature-img">
+                     <!-- Top Picture Link here, src is path to image-->
+                     <img class="img-fluid" src="img/blog/single_blog_1.png" alt="">
+                  </div>
+                  <div class="blog_details">
+                     <h2>Jan 18 - Feb 3</h2>
+                     <ul class="blog-info-link mt-3 mb-4">
+                        </ul>
+                     <p class="excert">
+                        Construction is underway and the team is working hard to get a working prototype. Lots
+                        of updates on progress and design changes as well as plans to receive input from the hockey
+                        community on the thoughts of our idea. This is a continuation of the previous update blog so
+                        reading that before continuing is highly reccomended.
+                     </p>
+                     <p>
+                        <h2>Website is Live</h2>
+                        The AfterShock website is now officially live. The website features description of the product,
+                        testimonials from industry specialists and a blog page featuring weekly updates and technical blogs
+                        detailing different technology used throughout the project. The website can be reached at <a href="after-shock.ca" target="_blank">after-shock.ca</a>
+                     </p>
+                     <p>
+                        <h2>Software</h2>
+                        There have been a few updates to the software since the last update. The REST API and react-native application
+                        have been combined to create a user login and registration page for the mobile app. The user login is to protect
+                        the data the application will contain as well as assign user roles so each user has the data tailored to what their
+                        role needs to view. <br>
+                        On the firmware side the network communication between the head mounted device and the REST API
+                        have been complete. Data from the device can be successfully sent to an API endpoint which stores it in our database.
+                        The firmware is also capable of allowing the server to send messages to the device, this will allow us to remotely control
+                        some features on the device.
+                     </p>
+                     <p>
+                        <h2>Electrical</h2>
+                        On the electrical side the big update is the new arduino nano has arrived and development with the board has begun.
+                        Attempted integration with the original accelerometers specified proved to not be possible given the technology we are
+                        working with. For this reason new accelerometers have been specified and prototyping has begun. <br>
+                        Upcoming tasks on the electrical side include successfull communication with the sensors, signal processing and filtering
+                        from the multiple sensors on the device and design a wire layout. The wire layout is crucial for further development as it
+                        impacts the design of the cap itself as well as the casing the board will rest in.
+                     </p>
+                     <p>
+                        <h2>Mechanical</h2>
+                        The 3D enclosure to contain the communication board has changed many times as prototyping has continued.
+                        The current design is a hard enclosure that has very narrow dimensions to allow it to be kept inside of the device
+                        itself allow us to have a self-contained unit. <br>
+                        A new champion has been decided for the design of the cap the will contain the sensors. Cameron Blair has taken the initiative
+                        towards the completion of the project and will oversee the tasks involved in completing the design.  
+                     </p>
+                     <p>
+                        <h2>Testing</h2>
+                        Cameron Blair has met with Professor Duane Cronin to discuss methods for testing as well as a better understanding behind concussion
+                        causes and diagnosis. Dr. Cronin has a doctorate of Mechnical Engineering and specializes in analyzing head trauma in automotive accidents
+                        and in football. He has shared with us the most up to date models for detecting concussions. He has also given us testing suggestion of 
+                        wearing the device during normal daily routine to help eliminate false positives. <br>
+                        The team also plans on testing the device in a game scenario once the prototype is complete. The testing is tentative on the timeline of
+                        completion.
+                     </p>
+                     <p>
+                        <h2>Project Management</h2>
+                        After a few rounds of redesign the project is finally back on track. The planned completion is March 6, 2019 with incremental
+                        milestones between then and now. The project is also coming in under budget and has lots of flexibility in the case of an
+                        unpredicted problems. 
+                     </p>
+                  </div>
+               </div>
+               <!--This section is not used but I want to keep it in case-->
+               <!-- <div class="navigation-top">
+                  <div class="d-sm-flex justify-content-between text-center">
+                     <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span> Lily and 4
+                        people like this</p>
+                     <div class="col-sm-4 text-center my-2 my-sm-0">
+                     </div>
+                     <ul class="social-icons">
+                        <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                        <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                     </ul>
+                  </div>
+                  <div class="navigation-area">
+                     <div class="row">
+                        <div
+                           class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                           <div class="thumb">
+                              <a href="#">
+                                 <img class="img-fluid" src="img/post/preview.png" alt="">
+                              </a>
+                           </div>
+                           <div class="arrow">
+                              <a href="#">
+                                 <span class="lnr text-white ti-arrow-left"></span>
+                              </a>
+                           </div>
+                           <div class="detials">
+                              <p>Prev Post</p>
+                              <a href="#">
+                                 <h4>Space The Final Frontier</h4>
+                              </a>
+                           </div>
+                        </div>
+                        <div
+                           class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                           <div class="detials">
+                              <p>Next Post</p>
+                              <a href="#">
+                                 <h4>Telescopes 101</h4>
+                              </a>
+                           </div>
+                           <div class="arrow">
+                              <a href="#">
+                                 <span class="lnr text-white ti-arrow-right"></span>
+                              </a>
+                           </div>
+                           <div class="thumb">
+                              <a href="#">
+                                 <img class="img-fluid" src="img/post/next.png" alt="">
+                              </a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div> -->
+            <div class="blog-author">
+               <div class="media align-items-center">
+                  <div class="media-body">
+                     <a href="#">
+                        <h4>Eric Tweedle</h4>
+                     </a>
+                     <p>Project Manager / Front-End Software Lead</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <!--================ Blog Area end =================-->
+
+ 
+    <!-- footer start, ignore this section-->
+    <footer class="footer">
+        <div class="footer_top">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 col-md-3">
+                        <div class="footer_logo wow fadeInRight" data-wow-duration="1s" data-wow-delay=".3s">
+                            <a href="index.html">
+                                <a href="index.html" style="color: #FFF; font-family: overlock; font-size:3rem;">
+                                    AfterShock
+                                </a>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-5 col-lg-7 col-md-9">
+                        <div class="menu_links">
+                            <ul>
+                                <li><a class="wow fadeInDown" data-wow-duration="1s" data-wow-delay=".2s" href="index.html">Home</a></li>
+                                <li><a class="wow fadeInDown" data-wow-duration="1s" data-wow-delay="1s" href="about.html">About</a class="wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s"></li>
+                                <li><a class="wow fadeInDown" data-wow-duration="1s" data-wow-delay="1.5s" href="blog.html">Blog</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copy-right_text">
+            <div class="container">
+                <div class="footer_border"></div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <p class="copy_right text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay="1.3s">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--/ footer end  -->
+
+
+   <!-- JS here -->
+   <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+   <script src="js/vendor/jquery-1.12.4.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.min.js"></script>
+   <script src="js/owl.carousel.min.js"></script>
+   <script src="js/isotope.pkgd.min.js"></script>
+   <script src="js/ajax-form.js"></script>
+   <script src="js/waypoints.min.js"></script>
+   <script src="js/jquery.counterup.min.js"></script>
+   <script src="js/imagesloaded.pkgd.min.js"></script>
+   <script src="js/scrollIt.js"></script>
+   <script src="js/jquery.scrollUp.min.js"></script>
+   <script src="js/wow.min.js"></script>
+   <script src="js/nice-select.min.js"></script>
+   <script src="js/jquery.slicknav.min.js"></script>
+   <script src="js/jquery.magnific-popup.min.js"></script>
+   <script src="js/plugins.js"></script>
+   <script src="js/gijgo.min.js"></script>
+
+   <!--contact js-->
+   <script src="js/contact.js"></script>
+   <script src="js/jquery.ajaxchimp.min.js"></script>
+   <script src="js/jquery.form.js"></script>
+   <script src="js/jquery.validate.min.js"></script>
+   <script src="js/mail-script.js"></script>
+
+   <script src="js/main.js"></script>
+</body>
+
+</html>
