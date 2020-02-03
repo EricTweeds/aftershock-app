@@ -2,11 +2,24 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 
-import { submitLogin } from '../reducer.js';
+import { submitLogin, wakeupServer } from '../reducer.js';
 
 class Login extends React.Component {
     constructor(props) {
         super(props);
+        this.onUsernameChange = this.onUsernameChange.bind(this);
+        this.onPasswordChange = this.onPasswordChange.bind(this);
+        this.onSignIn = this.onSignIn.bind(this);
+    }
+    componentDidMount() {
+      if (!this.props.awake) {
+        this.props.wakeupServer()
+      }
+    }
+    componentDidUpdate(prevProps) {
+      if (this.props.login) {
+        this.props.navigation.navigate('Players');
+      }
     }
     onSignIn(e) {
         this.props.submitLogin(this.state.username, this.state.password);
@@ -18,9 +31,6 @@ class Login extends React.Component {
         this.setState({password});
     }
     render() {
-        if (this.props.login) {
-            this.props.navigation.navigate('Players');
-        }
         let isLoading = this.props.loading ? true : false;
         return (
             <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -32,7 +42,7 @@ class Login extends React.Component {
                             style={styles.input}
                             autoCompleteType="username"
                             textContentType="username"
-                            onChangeText={this.onUsernameChange.bind(this)}
+                            onChangeText={this.onUsernameChange}
                             editable={!isLoading}
                         />
                     </View>
@@ -42,7 +52,7 @@ class Login extends React.Component {
                             style={styles.input}
                             autoCompleteType="password"
                             textContentType="password"
-                            onChangeText={this.onPasswordChange.bind(this)}
+                            onChangeText={this.onPasswordChange}
                             secureTextEntry={true}
                             editable={!isLoading}
                             autoCapitalize='none'
@@ -50,7 +60,7 @@ class Login extends React.Component {
                     </View>
                     <View style={styles.buttons}>
                         <Button title="Register" color="#d3d3d3" />
-                        <Button onPress={this.onSignIn.bind(this)} title="Sign In" disabled={isLoading}/>
+                        <Button onPress={this.onSignIn} title="Sign In" disabled={isLoading}/>
                     </View>
                     <Text>{this.props.error}</Text>
                 </View>
@@ -60,11 +70,12 @@ class Login extends React.Component {
 };
 
 const mapStateToProps = state => {
-    return { login: state.login, loading: state.loading, error: state.error };
+    return { login: state.login, loading: state.loading, error: state.error, awake: state.awake };
 };
 
 const mapDispatchToProps = {
-    submitLogin
+    submitLogin,
+    wakeupServer
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

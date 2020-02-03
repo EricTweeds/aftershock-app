@@ -1,25 +1,32 @@
 import React from 'react';
-import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from 'react-native-popup-menu';
+import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { StyleSheet, Text, View } from 'react-native';
-import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "react-native-elements";
  
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
+        this.onBack = this.onBack.bind(this);
     }
+
+    onBack() {
+        this.props.navigation.goBack();
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <Text style={styles.text}>{this.props.title}</Text>
+                {this.props.showMenu ? 
                 <Menu>
-                    <MenuTrigger><FontAwesomeIcon icon={faEllipsisV} size={24}/></MenuTrigger>
+                    <MenuTrigger><Icon name="ellipsis-v" type="font-awesome"/></MenuTrigger>
                     <MenuOptions>
-                        <MenuOption onSelect={() => console.log("a")} text="a" />
-                        <MenuOption onSelect={() => console.log("b")} text="b" />
-                        <MenuOption onSelect={() => console.log("c")} text="c" />
+                        <MenuOption onSelect={() => this.props.navigation.navigate('Settings')} text="Settings" />
                     </MenuOptions>
-                </Menu>
+                </Menu> :
+                <Icon onPress={this.onBack} name="arrow-right" type="font-awesome"/>
+                }
+
             </View>
         );
     }

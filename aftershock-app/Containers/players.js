@@ -59,10 +59,11 @@ export default class Players extends React.Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         return (
             <View>
-                <Header title="Players" />
+                <Header title="Players" navigation={this.props.navigation} showMenu={true}/>
                 <View style={styles.container}>
                     {props.players.map((player, i) => {
                         return (<Card {...player} key={"player-" + i}/>);

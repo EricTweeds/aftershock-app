@@ -10,8 +10,9 @@ import { MenuProvider } from 'react-native-popup-menu';
 
 import reducer from "./reducer";
 
-import Login from "./Containers/login";
+import Login from './Containers/login';
 import Players from './Containers/players';
+import Settings from './Containers/settings';
 
 const client = axios.create({
   baseURL: "http://aftershock-api.herokuapp.com",
@@ -22,7 +23,8 @@ const store = createStore(reducer, applyMiddleware(axiosMiddleware(client)));
 
 const MainNavigator = createStackNavigator({
     Home: {screen: Login},
-    Players: {screen: Players}
+    Players: {screen: Players},
+    Settings: {screen: Settings}
   },
   {
     initialRouteName: 'Home',

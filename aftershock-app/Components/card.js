@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faBatteryEmpty, faBatteryQuarter, faBatteryHalf, faBatteryThreeQuarters, faBatteryFull, faCircle } from "@fortawesome/free-solid-svg-icons";
-
+import { Icon } from "react-native-elements";
  
 export default class Card extends React.Component {
     constructor(props) {
@@ -10,26 +8,26 @@ export default class Card extends React.Component {
     }
     render() {
         const { battery } = this.props;
-        let batteryIcon = faBatteryEmpty;
+        let batteryIcon = "battery-empty";
         let batteryColor = '#ff0000';
         if (battery > 0 && battery <= 25) {
-            batteryIcon = faBatteryQuarter;
+            batteryIcon = "battery-quarter";
         } else if (battery > 25 && battery <= 50) {
-            batteryIcon = faBatteryHalf;
+            batteryIcon = "battery-half";
             batteryColor = 'orange';
         } else if (battery > 50 && battery <= 75) {
-            batteryIcon = faBatteryThreeQuarters;
+            batteryIcon = "battery-three-quarters";
             batteryColor = 'black';
         } else if (battery > 75) {
-            batteryIcon = faBatteryFull;
+            batteryIcon = "battery-full";
             batteryColor = 'black';
         }
 
         return (
             <View style={styles.container}>
                 <View style={styles.headerContainer}>
-                    <FontAwesomeIcon icon={batteryIcon} color={batteryColor} />
-                    <FontAwesomeIcon icon={faCircle} color={this.props.active ? '#00bb00' : '#ff0000'} size={20} />
+                    <Icon name={batteryIcon} type="font-awesome" color={batteryColor} />
+                    <Icon name="circle" type="font-awesome" color={this.props.active ? '#00bb00' : '#ff0000'} size={20} />
                 </View>
                 <Text style={styles.number}>{this.props.number}</Text>
                 <Text style={styles.name}>{this.props.name}</Text>
