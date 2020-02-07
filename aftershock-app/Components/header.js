@@ -2,15 +2,23 @@ import React from 'react';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { StyleSheet, Text, View } from 'react-native';
 import { Icon } from "react-native-elements";
+
+import { setItem } from '../Tools/asyncStorageTool';
  
 export default class Header extends React.Component {
     constructor(props) {
         super(props);
         this.onBack = this.onBack.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     onBack() {
         this.props.navigation.goBack();
+    }
+
+    logout() {
+        setItem('token', null);
+        this.props.navigation.navigate('Home');
     }
 
     render() {
@@ -22,6 +30,7 @@ export default class Header extends React.Component {
                     <MenuTrigger style={styles.menuTrigger}><Icon name="ellipsis-v" type="font-awesome"/></MenuTrigger>
                     <MenuOptions>
                         <MenuOption onSelect={() => this.props.navigation.navigate('Settings')} text="Settings" />
+                        <MenuOption onSelect={() => this.logout()} text="Logout" />
                     </MenuOptions>
                 </Menu> :
                 <Icon onPress={this.onBack} name="arrow-right" type="font-awesome"/>
