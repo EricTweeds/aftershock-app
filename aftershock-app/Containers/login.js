@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 
+import { retrieveItem } from '../Tools/asyncStorageTool';
+
 import { submitLogin, wakeupServer } from '../reducer.js';
 
 class Login extends React.Component {
@@ -15,8 +17,13 @@ class Login extends React.Component {
       if (!this.props.awake) {
         this.props.wakeupServer()
       }
+      retrieveItem('token').then((token) => {
+        if (token !== null) {
+          this.props.navigation.navigate('Players');
+        }
+      });
     }
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
       if (this.props.login) {
         this.props.navigation.navigate('Players');
       }
@@ -70,7 +77,7 @@ class Login extends React.Component {
 };
 
 const mapStateToProps = state => {
-    return { login: state.login, loading: state.loading, error: state.error, awake: state.awake };
+    return { login: state.login, loading: state.loading, error: state.error, awake: state.awake, token: state.token };
 };
 
 const mapDispatchToProps = {

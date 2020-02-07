@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
 
 import Header from "../Components/header";
-import pushNotificationTool from "../pushNotificationTool";
+import pushNotificationTool from "../Tools/pushNotificationTool";
+import { retrieveItem, setItem } from '../Tools/asyncStorageTool';
 
 export default class Settings extends Component {
     constructor(props) {
@@ -10,7 +11,14 @@ export default class Settings extends Component {
         this.handleNotificationChange = this.handleNotificationChange.bind(this);
     }
     state = {
-        enable_notifications: false
+
+    }
+
+    componentWillMount() {
+        retrieveItem('allowNotifications').then((notifications) => {
+            const val = notifications === "true";
+            this.setState({enable_notifications: val});
+        });
     }
 
     handleNotificationChange(val) {
@@ -18,6 +26,7 @@ export default class Settings extends Component {
         if (val) {
             this.getToken();
         }
+        setItem('allowNotifications', val.toString());
     }
 
     async getToken() {

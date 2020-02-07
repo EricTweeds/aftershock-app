@@ -19,7 +19,7 @@ export default class Header extends React.Component {
                 <Text style={styles.text}>{this.props.title}</Text>
                 {this.props.showMenu ? 
                 <Menu>
-                    <MenuTrigger><Icon name="ellipsis-v" type="font-awesome"/></MenuTrigger>
+                    <MenuTrigger style={styles.menuTrigger}><Icon name="ellipsis-v" type="font-awesome"/></MenuTrigger>
                     <MenuOptions>
                         <MenuOption onSelect={() => this.props.navigation.navigate('Settings')} text="Settings" />
                     </MenuOptions>
@@ -45,5 +45,8 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 32
+  },
+  menuTrigger: {
+      width: 20
   }
 });

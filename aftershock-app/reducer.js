@@ -1,3 +1,5 @@
+import { AsyncStorage } from "react-native";
+
 export const POST_LOGIN = "aftershock/login/LOAD";
 export const POST_LOGIN_SUCCESS = "aftershock/login/LOAD_SUCCESS";
 export const POST_LOGIN_FAIL = "aftershock/login/LOAD_FAIL";
@@ -9,7 +11,10 @@ export default function reducer(state = { login: false }, action) {
         case POST_LOGIN:
             return {...state, loading: true};
         case POST_LOGIN_SUCCESS:
-            return { ...state, login: action.payload.data.success, loading: false, error: "" };
+            if (action.payload.data.token !== null) {
+                AsyncStorage.setItem('token', action.payload.data.token);
+            }
+            return { ...state, login: action.payload.data.success, loading: false, error: "", token: action.payload.data.token };
         case POST_LOGIN_FAIL:
             return { ...state, loading: false, error: "Username or Password not found"}
         case GET_PING:
