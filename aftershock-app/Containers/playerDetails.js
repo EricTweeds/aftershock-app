@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import { Icon } from "react-native-elements";
 
 import Header from "../Components/header";
+import GametimePlot from "../Components/gametimePlot";
 
 let props = {
     number: "33",
@@ -18,7 +19,21 @@ let props = {
     totalCollisions: 54,
     mild: 60,
     moderate: 30,
-    severe: 5
+    severe: 5,
+    currentGame: [
+        { time: 1, acceleration: 12, rotational: 3},
+        { time: 2, acceleration: 3.5, rotational: 2.1 },
+        { time: 3, acceleration: 6.7, rotational: 2.5 },
+        { time: 4, acceleration: 25, rotational: 5 },
+        { time: 5, acceleration: 10, rotational: 2.9 },
+        { time: 6, acceleration: 0.5, rotational: 0.5 },
+        { time: 7, acceleration: 0.3, rotational: 0.3 },
+        { time: 8, acceleration: 2, rotational: 1.2 },
+        { time: 9, acceleration: 4.8, rotational: 1.5 },
+        { time: 10, acceleration: 7.1, rotational: 1.7 },
+        { time: 11, acceleration: 9.81, rotational: 9.81 },
+        { time: 12, acceleration: 0.02, rotational: 0.1 }
+    ]
 }
 
 export default class PlayerDetails extends Component {
@@ -27,7 +42,7 @@ export default class PlayerDetails extends Component {
     }
 
     render() {
-        const { name, active, battery, number, status, birthday, team, position, gamesPlayed, totalCollisions, max, mild, moderate, severe } = props;
+        const { name, active, battery, number, status, birthday, team, position, gamesPlayed, totalCollisions, max, mild, moderate, severe, currentGame } = props;
 
         let batteryIcon = "battery-empty";
         let batteryColor = '#ff0000';
@@ -82,7 +97,7 @@ export default class PlayerDetails extends Component {
                     </View>
                 </View>
                 <View style={styles.currentGameData}>
-
+                    <GametimePlot data={currentGame}/>
                 </View>
             </View>
         );
@@ -155,4 +170,8 @@ const styles = StyleSheet.create({
         margin: 20,
         minWidth: 200
     },
+    currentGameData: {
+        backgroundColor: '#e3f2fd',
+        height: "100%"
+    }
 });
