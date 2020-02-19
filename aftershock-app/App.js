@@ -13,6 +13,7 @@ import reducer from "./reducer";
 import Login from './Containers/login';
 import Players from './Containers/players';
 import Settings from './Containers/settings';
+import PlayerDetails from './Containers/playerDetails';
 
 const client = axios.create({
   baseURL: "http://aftershock-api.herokuapp.com",
@@ -24,10 +25,11 @@ const store = createStore(reducer, applyMiddleware(axiosMiddleware(client)));
 const MainNavigator = createStackNavigator({
     Home: {screen: Login},
     Players: {screen: Players},
-    Settings: {screen: Settings}
+    Settings: {screen: Settings},
+    PlayerDetails: {screen: PlayerDetails},
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'PlayerDetails',
     defaultNavigationOptions: {
       headerShown: false
     }
