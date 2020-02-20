@@ -52,6 +52,10 @@ class PlayerDetails extends Component {
                     </View>
                     <View style={styles.detailsRow}>
                         <View style={styles.picColumn}>
+                            <View style={styles.deviceStatus}>
+                                <Icon name="circle" type="font-awesome" color={active ? '#00bb00' : '#ff0000'} size={20} />
+                                <Icon name={batteryIcon} type="font-awesome" color={batteryColor} />
+                            </View>
                             <View style={styles.pic}>
                                 <Text style={styles.number}>{number}</Text>
                             </View>
@@ -60,19 +64,25 @@ class PlayerDetails extends Component {
                             </View> */}
                         </View>
                         <View style={styles.dataColumn}>
-                            <Text style={styles.title}>Concussion Risk:</Text>
+                            <View style={styles.header}>
+                                <Text style={styles.title}>Concussion Risk:</Text>
+                            </View>
                             <View style={styles.infoRow}><Text style={styles.info}>Mild Concussion: </Text><Text style={styles.info}>{mild}%</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>Moderate Concussion: </Text><Text style={styles.info}>{moderate}%</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>Severe Concussion: </Text><Text style={styles.info}>{severe}%</Text></View>
                         </View>
                         <View style={styles.dataColumn}>
-                            <Text style={styles.title}>Personal Info:</Text>
+                            <View style={styles.header}>
+                                <Text style={styles.title}>Personal Info:</Text>
+                            </View>
                             <View style={styles.infoRow}><Text style={styles.info}>Birthday: </Text><Text style={styles.info}>{birthday}</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>Team: </Text><Text style={styles.info}>{team}</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>Position: </Text><Text style={styles.info}>{position}</Text></View>
                         </View>
                         <View style={styles.dataColumn}>
-                            <Text style={styles.title}>Player Summary:</Text>
+                            <View style={styles.header}>
+                                <Text style={styles.title}>Player Summary:</Text>
+                            </View>
                             <View style={styles.infoRow}><Text style={styles.info}>Games Played: </Text><Text style={styles.info}>{gamesPlayed}</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>All-Time Max: </Text><Text style={styles.info}>{max}g</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>Total Collisions: </Text><Text style={styles.info}>{totalCollisions}</Text></View>
@@ -159,14 +169,30 @@ const styles = StyleSheet.create({
     },
     infoRow: {
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
+        backgroundColor: '#e3f2fd',
+        borderTopWidth: 1,
+        padding: 5
     },
     dataColumn: {
         margin: 20,
-        minWidth: 200
+        minWidth: 200,
+        borderWidth: 2,
+    },
+    header: {
+        backgroundColor: "#FFF",
+        padding: 5
     },
     currentGameData: {
         backgroundColor: '#e3f2fd',
         height: "100%"
+    },
+    deviceStatus: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        alignSelf: "stretch",
+        marginRight: 10,
+        marginLeft: 10
     }
 });
