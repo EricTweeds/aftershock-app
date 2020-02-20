@@ -2,8 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, TextInput, Button, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 
-import { retrieveItem } from '../Tools/asyncStorageTool';
-
 import { submitLogin, wakeupServer } from '../reducer.js';
 
 class Login extends React.Component {
@@ -13,22 +11,16 @@ class Login extends React.Component {
         this.onPasswordChange = this.onPasswordChange.bind(this);
         this.onSignIn = this.onSignIn.bind(this);
     }
-    componentDidMount() {
-      if (!this.props.awake) {
-        this.props.wakeupServer()
-      }
-      retrieveItem('token').then((token) => {
-        if (token !== null) {
-          this.props.navigation.navigate('Players');
-        }
-      });
-    }
+
+    state = {}
+
     componentDidUpdate() {
       if (this.props.login) {
         this.props.navigation.navigate('Players');
       }
     }
     onSignIn(e) {
+      if (this.state.username && this.state.password)
         this.props.submitLogin(this.state.username, this.state.password);
     }
     onUsernameChange(username) {

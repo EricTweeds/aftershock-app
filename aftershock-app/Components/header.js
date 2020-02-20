@@ -3,7 +3,7 @@ import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-m
 import { StyleSheet, Text, View } from 'react-native';
 import { Icon } from "react-native-elements";
 
-import { setItem } from '../Tools/asyncStorageTool';
+import { removeItem } from '../Tools/asyncStorageTool';
  
 export default class Header extends React.Component {
     constructor(props) {
@@ -17,8 +17,8 @@ export default class Header extends React.Component {
     }
 
     logout() {
-        setItem('token', null);
-        this.props.navigation.navigate('Home');
+        removeItem('token');
+        this.props.navigation.navigate('Login');
     }
 
     render() {

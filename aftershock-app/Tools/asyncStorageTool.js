@@ -18,3 +18,12 @@ module.exports.setItem = async function(key, value) {
     }
     return;
 }
+
+module.exports.removeItem = async function(key) {
+    try {
+        await AsyncStorage.removeItem(key);
+    } catch (e) {
+        console.log("Removing Error: " + e);
+    }
+    return;
+}
