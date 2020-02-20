@@ -30,7 +30,7 @@ class Players extends React.Component {
                 <View style={styles.container}>
                     {this.props.players ? this.props.players.map((player, i) => {
                         return (
-                            <TouchableOpacity key={player.number} onPress={() => this.handlePress(player.number)}>
+                            <TouchableOpacity key={player.number} onPress={() => this.handlePress(player.id)}>
                                 <Card {...player} key={"player-" + i}/>
                             </TouchableOpacity>
                         );

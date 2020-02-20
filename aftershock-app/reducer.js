@@ -27,7 +27,7 @@ export default function reducer(state = { login: false, player: {} }, action) {
         case GET_TEAM_DATA:
             return { ...state, players: TeamData.players}//action.payload.data.players }
         case GET_PLAYER_DATA:
-            return { ...state, player: PlayerData }
+            return { ...state, player: PlayerData[action.id] }
         default:
             return state;
     }
@@ -65,6 +65,7 @@ export function submitLogin(username, password) {
 export function getTeamData(team_id) {
     return {
         type: GET_TEAM_DATA,
+        id: team_id,
         payload: {
             request: {
                 method: 'get',
@@ -77,6 +78,7 @@ export function getTeamData(team_id) {
 export function getPlayerData(player_id) {
     return {
         type: GET_PLAYER_DATA,
+        id: player_id,
         payload: {
             request: {
                 method: 'get',
