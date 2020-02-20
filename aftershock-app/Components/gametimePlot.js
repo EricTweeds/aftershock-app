@@ -1,14 +1,8 @@
 import React, { Component } from "react";
-import Svg from 'react-native-svg';
 import { StyleSheet, View } from "react-native";
 import { VictoryScatter, VictoryChart, VictoryTheme, VictoryAxis } from "victory-native";
 
 export default class GametimePlot extends Component {
-
-    handleDataClick(a) {
-        console.log("hello", a);
-    }
-
     render() {
         const { data } = this.props;
         return (
@@ -52,6 +46,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#e3f2fd",
-    padding: 50
+    padding: 20
   }
 });

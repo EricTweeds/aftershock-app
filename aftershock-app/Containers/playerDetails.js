@@ -1,48 +1,29 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Button } from "react-native";
 import { Icon } from "react-native-elements";
+import { connect } from 'react-redux';
+
+import { getPlayerData } from "../reducer";
 
 import Header from "../Components/header";
 import GametimePlot from "../Components/gametimePlot";
 
-let props = {
-    number: "33",
-    name: "Eric Tweedle",
-    status: "Good",
-    active: true,
-    max: 3.2,
-    battery: 100,
-    birthday: "April 1, 1997",
-    team: "Lincoln Blades",
-    position: "Defense",
-    gamesPlayed: 13,
-    totalCollisions: 54,
-    mild: 60,
-    moderate: 30,
-    severe: 5,
-    currentGame: [
-        { time: 1, acceleration: 12, rotational: 3},
-        { time: 2, acceleration: 3.5, rotational: 2.1 },
-        { time: 3, acceleration: 6.7, rotational: 2.5 },
-        { time: 4, acceleration: 25, rotational: 5 },
-        { time: 5, acceleration: 10, rotational: 2.9 },
-        { time: 6, acceleration: 0.5, rotational: 0.5 },
-        { time: 7, acceleration: 0.3, rotational: 0.3 },
-        { time: 8, acceleration: 2, rotational: 1.2 },
-        { time: 9, acceleration: 4.8, rotational: 1.5 },
-        { time: 10, acceleration: 7.1, rotational: 1.7 },
-        { time: 11, acceleration: 9.81, rotational: 9.81 },
-        { time: 12, acceleration: 0.02, rotational: 0.1 }
-    ]
-}
-
-export default class PlayerDetails extends Component {
+class PlayerDetails extends Component {
     constructor(props) {
         super(props);
+        this.handleBack = this.handleBack.bind(this);
+    }
+    componentDidMount() {
+        const { playerId } = this.props.navigation.state.params;
+        this.props.getPlayerData(playerId);
+    }
+    
+    handleBack() {
+        this.props.navigation.navigate('Players')
     }
 
     render() {
-        const { name, active, battery, number, status, birthday, team, position, gamesPlayed, totalCollisions, max, mild, moderate, severe, currentGame } = props;
+        const { name, active, battery, number, status, birthday, team, position, gamesPlayed, totalCollisions, max, mild, moderate, severe, currentGame } = this.props.data;
 
         let batteryIcon = "battery-empty";
         let batteryColor = '#ff0000';
@@ -64,8 +45,10 @@ export default class PlayerDetails extends Component {
                 <Header title={name} navigation={this.props.navigation} showMenu={true}/>
                 <View style={styles.details}>
                     <View style={styles.statusRow}>
-                        <Icon name="circle" type="font-awesome" color={active ? '#00bb00' : '#ff0000'} size={20} />
-                        <Icon name={batteryIcon} type="font-awesome" color={batteryColor} />
+                        <Button title="Back to Team" onPress={() => this.handleBack()} />
+                        <Button title="Report Injury" onPress={() => this.handleBack()} />
+                        {/* <Icon name="circle" type="font-awesome" color={active ? '#00bb00' : '#ff0000'} size={20} />
+                        <Icon name={batteryIcon} type="font-awesome" color={batteryColor} /> */}
                     </View>
                     <View style={styles.detailsRow}>
                         <View style={styles.picColumn}>
@@ -97,12 +80,23 @@ export default class PlayerDetails extends Component {
                     </View>
                 </View>
                 <View style={styles.currentGameData}>
-                    <GametimePlot data={currentGame}/>
+                    {currentGame ? <GametimePlot data={currentGame}/> : null}
                 </View>
             </View>
         );
     }
 };
+
+const mapStateToProps = state => {
+    return { data: state.player }
+};
+
+const mapDispatchToProps = {
+    getPlayerData
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerDetails);
+
 
 const styles = StyleSheet.create({
     details: {
@@ -117,6 +111,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
+        padding: 10,
         marginBottom: 10
     },
     detailsRow: {

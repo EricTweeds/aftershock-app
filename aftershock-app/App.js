@@ -29,7 +29,7 @@ const MainNavigator = createStackNavigator({
     PlayerDetails: {screen: PlayerDetails},
   },
   {
-    initialRouteName: 'PlayerDetails',
+    initialRouteName: 'Home',
     defaultNavigationOptions: {
       headerShown: false
     }
