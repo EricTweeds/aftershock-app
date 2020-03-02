@@ -33,7 +33,7 @@ export default class Header extends React.Component {
                         <MenuOption onSelect={() => this.logout()} text="Logout" />
                     </MenuOptions>
                 </Menu> :
-                <Icon onPress={this.onBack} name="arrow-right" type="font-awesome"/>
+                <Icon onPress={this.onBack} name="arrow-left" type="font-awesome"/>
                 }
 
             </View>

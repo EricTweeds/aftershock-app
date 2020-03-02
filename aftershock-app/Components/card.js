@@ -6,6 +6,7 @@ export default class Card extends React.Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         const { battery } = this.props;
         let batteryIcon = "battery-empty";
@@ -57,7 +58,8 @@ const styles = StyleSheet.create({
     borderColor: "#000",
     borderWidth: 1,
     margin: 20,
-    width: 200
+    width: 200,
+    maxHeight: 270.5
   },
   dataContainer: {
     flexDirection: "row",

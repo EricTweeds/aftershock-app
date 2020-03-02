@@ -15,6 +15,7 @@ import Players from './Containers/players';
 import Settings from './Containers/settings';
 import PlayerDetails from './Containers/playerDetails';
 import StartupScreen from './Containers/startupScreen';
+import AddPlayer from './Containers/addPlayer.js';
 
 const client = axios.create({
   baseURL: "http://aftershock-api.herokuapp.com",
@@ -29,6 +30,7 @@ const MainNavigator = createStackNavigator({
     Players: {screen: Players},
     Settings: {screen: Settings},
     PlayerDetails: {screen: PlayerDetails},
+    AddPlayer: {screen: AddPlayer}
   },
   {
     initialRouteName: 'Startup',

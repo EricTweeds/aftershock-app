@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { retrieveItem } from '../Tools/asyncStorageTool';
 
-import { wakeupServer } from '../reducer.js';
+import { wakeupServer, storeToken } from '../reducer.js';
 
 class StartupScreen extends Component {
     constructor(props) {
@@ -17,6 +17,7 @@ class StartupScreen extends Component {
         }
         retrieveItem('token').then((token) => {
           if (token !== null) {
+            this.props.storeToken(token);
             this.props.navigation.navigate('Players');
           } else {
             this.props.navigation.navigate('Login');
@@ -34,7 +35,8 @@ class StartupScreen extends Component {
 }
 
 const mapDispatchToProps = {
-    wakeupServer
+    wakeupServer,
+    storeToken
 }
 
 export default connect(null, mapDispatchToProps)(StartupScreen);

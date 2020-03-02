@@ -7,6 +7,7 @@ import { getTeamData } from '../reducer';
 
 import Card from "../Components/card";
 import Header from '../Components/header';
+import AddPlayerCard from '../Components/addCard';
 
 class Players extends React.Component {
     constructor(props) {
@@ -18,9 +19,13 @@ class Players extends React.Component {
     }
 
     handlePress(id) {
-        this.props.navigation.navigate('PlayerDetails', {
-            playerId: id
-        });
+        if (id === 'add') {
+            this.props.navigation.navigate('AddPlayer');
+        } else {
+            this.props.navigation.navigate('PlayerDetails', {
+                playerId: id
+            });
+        }   
     }
 
     render() {
@@ -35,6 +40,9 @@ class Players extends React.Component {
                             </TouchableOpacity>
                         );
                     }) : null}
+                    <TouchableOpacity key="add" onPress={() => this.handlePress('add')}>
+                        <AddPlayerCard  />
+                    </TouchableOpacity>
                 </View>
             </View>
         );
