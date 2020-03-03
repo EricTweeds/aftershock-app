@@ -53,7 +53,61 @@ export const TeamData = {
             max: 0,
             battery: 0,
             id: "6"
-        }
+        },
+        {
+            number: "87",
+            name: "S. Crosby",
+            status: "Off",
+            active: false,
+            max: 0,
+            battery: 0,
+            id: "7"
+        },
+        {
+            number: "87",
+            name: "S. Crosby",
+            status: "Off",
+            active: false,
+            max: 0,
+            battery: 0,
+            id: "8"
+        },
+        {
+            number: "87",
+            name: "S. Crosby",
+            status: "Off",
+            active: false,
+            max: 0,
+            battery: 0,
+            id: "9"
+        },
+        {
+            number: "87",
+            name: "S. Crosby",
+            status: "Off",
+            active: false,
+            max: 0,
+            battery: 0,
+            id: "10"
+        },
+        {
+            number: "87",
+            name: "S. Crosby",
+            status: "Off",
+            active: false,
+            max: 0,
+            battery: 0,
+            id: "11"
+        },
+        // {
+        //     number: "87",
+        //     name: "S. Crosby",
+        //     status: "Off",
+        //     active: false,
+        //     max: 0,
+        //     battery: 0,
+        //     id: "12"
+        // }
     ]
 }
 

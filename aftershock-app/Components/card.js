@@ -27,19 +27,19 @@ export default class Card extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.headerContainer}>
-                    <Icon name={batteryIcon} type="font-awesome" color={batteryColor} />
-                    <Icon name="circle" type="font-awesome" color={this.props.active ? '#00bb00' : '#ff0000'} size={20} />
+                    {/*<Icon name={batteryIcon} type="font-awesome" color={batteryColor} />*/}
+                    <Icon name="circle" type="font-awesome" color={this.props.device_active ? '#00bb00' : '#ff0000'} size={20} />
                 </View>
-                <Text style={styles.number}>{this.props.number}</Text>
-                <Text style={styles.name}>{this.props.name}</Text>
+                <Text style={styles.number}>{this.props.jersey_number}</Text>
+                <Text style={styles.name}>{this.props.first_name[0] + ". " + this.props.last_name}</Text>
                 <View style={styles.line} />
                 <View style={styles.dataContainer}>
-                    <Text style={styles.status}>Status:</Text>
-                    <Text style={styles.status}>{this.props.status}</Text>
+                    <Text style={styles.status}>Risk:</Text>
+                    <Text style={styles.status}>{this.props.at_risk_percentage}%</Text>
                 </View>
                 <View style={styles.dataContainer}>
                     <Text style={styles.max}>Max Impact:</Text>
-                    <Text style={styles.max}>{this.props.max ? this.props.max + "g" : "--"}</Text>
+                    <Text style={styles.max}>{this.props.largest_impact ? this.props.largest_impact + "g" : "--"}</Text>
                 </View>
             </View>
         );

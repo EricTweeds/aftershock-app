@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -15,27 +15,29 @@ class Players extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getTeamData("id");
+        if (!this.props.players) {
+            this.props.getTeamData(this.props.token);
+        }
     }
 
-    handlePress(id) {
-        if (id === 'add') {
+    handlePress(data) {
+        if (data === 'add') {
             this.props.navigation.navigate('AddPlayer');
         } else {
             this.props.navigation.navigate('PlayerDetails', {
-                playerId: id
+                player: data
             });
         }   
     }
 
     render() {
         return (
-            <View>
+            <View style={StyleSheet.absoluteFill}>
                 <Header title="Players" navigation={this.props.navigation} showMenu={true}/>
-                <View style={styles.container}>
+                <ScrollView contentContainerStyle={styles.container}>
                     {this.props.players ? this.props.players.map((player, i) => {
                         return (
-                            <TouchableOpacity key={player.number} onPress={() => this.handlePress(player.id)}>
+                            <TouchableOpacity key={player.id} onPress={() => this.handlePress(player)}>
                                 <Card {...player} key={"player-" + i}/>
                             </TouchableOpacity>
                         );
@@ -43,14 +45,14 @@ class Players extends React.Component {
                     <TouchableOpacity key="add" onPress={() => this.handlePress('add')}>
                         <AddPlayerCard  />
                     </TouchableOpacity>
-                </View>
+                </ScrollView>
             </View>
         );
     }
 };
 
 const mapStateToProps = state => {
-    return { players: state.players }
+    return { players: state.players, token: state.token }
 };
 
 const mapDispatchToProps = {

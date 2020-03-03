@@ -16,12 +16,11 @@ class PlayerDetails extends Component {
         this.handlePickerChange = this.handlePickerChange.bind(this);
     }
 
-    state = {};
+    state = { player: {}};
 
     componentDidMount() {
-        const { playerId } = this.props.navigation.state.params;
-        this.props.getPlayerData(playerId);
-        this.setState({game: 0});
+        const { player } = this.props.navigation.state.params;
+        this.setState({player, game: 0});
     }
     
     handleBack() {
@@ -41,7 +40,7 @@ class PlayerDetails extends Component {
     }
 
     render() {
-        const { name, active, battery, risk, age, team, position, gamesPlayed, totalCollisions, max, currentGame, height, weight } = this.props.data;
+        const { first_name, last_name, device_active, battery, at_risk_percentage, age, position, gamesPlayed, totalCollisions, largest_impact, currentGame, height_cm, weight_kg } = this.state.player;
 
         let batteryIcon = "battery-empty";
         let batteryColor = '#ff0000';
@@ -61,10 +60,10 @@ class PlayerDetails extends Component {
         let riskColor;
         let riskText = "unknown";
 
-        if (risk < 40) {
+        if (at_risk_percentage < 40) {
             riskColor = "#64a338";
             riskText = "Good";
-        } else if (risk >= 40 && risk < 60) {
+        } else if (at_risk_percentage >= 40 && at_risk_percentage < 60) {
             riskColor = "#ffcc00";
             riskText = "Warning";
         } else {
@@ -74,7 +73,7 @@ class PlayerDetails extends Component {
 
         return (
             <View style={styles.container}>
-                <Header title={name} navigation={this.props.navigation} showMenu={true}/>
+                <Header title={first_name + " " + last_name} navigation={this.props.navigation} showMenu={true}/>
                 <View style={styles.details}>
                     <View style={styles.statusRow}>
                         <Button title="Back to Team" onPress={() => this.handleBack()} />
@@ -85,24 +84,24 @@ class PlayerDetails extends Component {
                     <View style={styles.detailsRow}>
                         <View style={styles.picColumn}>
                             <View style={{...styles.pic, backgroundColor: riskColor}}>
-                                <Text style={styles.number}>{risk}%</Text>
+                                <Text style={styles.number}>{at_risk_percentage}%</Text>
                                 <Text style={styles.risk}>{riskText}</Text>
                             </View>
-                            <Text style={{...styles.onlineStatus, color: active ? "#64a338" : '#e03b24'}}>{active ? "Online" : "Offline"}</Text>
+                            <Text style={{...styles.onlineStatus, color: device_active ? "#64a338" : '#e03b24'}}>{device_active ? "Online" : "Offline"}</Text>
                             {/* <View style={{...styles.status, backgroundColor: "#00bb00"}}>
                                 <Text style={styles.statusText}>{status}</Text>
                             </View> */}
                         </View>
                         <View style={styles.dataColumn}>
-                            <View style={styles.infoRow}><Text style={styles.info}>Team: </Text><Text style={styles.info}>{team}</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Team: </Text><Text style={styles.info}>Waterloo Warriors</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>Position: </Text><Text style={styles.info}>{position}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Height: </Text><Text style={styles.info}>{height}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Weight: </Text><Text style={styles.info}>{weight}</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Height: </Text><Text style={styles.info}>{height_cm}</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Weight: </Text><Text style={styles.info}>{weight_kg}</Text></View>
                         </View>
                         <View style={styles.dataColumn}>
                             <View style={styles.infoRow}><Text style={styles.info}>Age: </Text><Text style={styles.info}>{age}</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>Games Played: </Text><Text style={styles.info}>{gamesPlayed}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>All-Time Max: </Text><Text style={styles.info}>{max}g</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>All-Time Max: </Text><Text style={styles.info}>{largest_impact}g</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>Total Collisions: </Text><Text style={styles.info}>{totalCollisions}</Text></View>
                         </View>
                     </View>
@@ -143,7 +142,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    getPlayerData
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerDetails);
