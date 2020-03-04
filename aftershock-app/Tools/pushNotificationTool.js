@@ -21,6 +21,5 @@ export default async function registerForPushNotificationsAsync() {
   
     // POST the token to your backend server from where you can retrieve it to send push notifications.
     //make endpoint call here to store token
-    console.log(token);
     return token;
   }

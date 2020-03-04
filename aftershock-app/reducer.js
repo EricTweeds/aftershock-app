@@ -15,6 +15,10 @@ export const GET_TEAM_DATA_SUCCESS = "aftershock/players/GET_TEAM_DATA_SUCCESS";
 
 export const POST_PLAYER_DATA = "aftershock/player/POST_PLAYER_DATA";
 
+export const POST_NOTIFICATION_TOKEN = "aftershock/notifications/POST_NOTIFICATION_TOKEN";
+export const POST_NOTIFICATION_SEND = "aftershock/notifications/POST_NOTIFICATION_SEND";
+export const POST_NOTIFICATION_DELETE = "aftershock/notifications/POST_NOTIFICATION_DELETE";
+
 export const STORE_TOKEN = "aftershock/STORE_TOKEN";
 
 export default function reducer(state = { login: false, player: {} }, action) {
@@ -123,3 +127,51 @@ export function storeToken(token) {
         token: token
     }
 }
+
+export function postNotificationToken(notifToken, bearerToken) {
+    return {
+        type: POST_NOTIFICATION_TOKEN,
+        payload: {
+            request: {
+                method: 'post',
+                url: '/notification',
+                data: { token: notifToken },
+                headers: {
+                    Authorization: 'Bearer ' + bearerToken
+                }
+            }
+        }
+    }
+}
+
+export function postNotificationSend(msg, bearerToken) {
+    return {
+        type: POST_NOTIFICATION_SEND,
+        payload: {
+            request: {
+                method: 'post',
+                url: '/notification/send',
+                data: { msg },
+                headers: {
+                    Authorization: 'Bearer ' + bearerToken
+                }
+            }
+        }
+    }
+}
+
+export function postNotificationDelete(bearerToken) {
+    return {
+        type: POST_NOTIFICATION_DELETE,
+        payload: {
+            request: {
+                method: 'delete',
+                url: '/notification',
+                headers: {
+                    Authorization: 'Bearer ' + bearerToken
+                }
+            }
+        }
+    }
+}
+

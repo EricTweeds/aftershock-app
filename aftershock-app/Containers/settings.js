@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
+import { connect } from 'react-redux';
 
 import Header from "../Components/header";
 import pushNotificationTool from "../Tools/pushNotificationTool";
 import { retrieveItem, setItem } from '../Tools/asyncStorageTool';
 
-export default class Settings extends Component {
+import { postNotificationToken, postNotificationDelete } from '../reducer';
+
+class Settings extends Component {
     constructor(props) {
         super(props);
         this.handleNotificationChange = this.handleNotificationChange.bind(this);
     }
     state = {
-
     }
 
     componentWillMount() {
@@ -24,13 +26,18 @@ export default class Settings extends Component {
     handleNotificationChange(val) {
         this.setState({enable_notifications: val});
         if (val) {
-            this.getToken();
+            this.getToken().then(response => {
+                this.props.postNotificationToken(response, this.props.token);
+            });
+        } else {
+            this.props.postNotificationDelete(this.props.token);
         }
         setItem('allowNotifications', val.toString());
     }
 
     async getToken() {
-        await pushNotificationTool();
+        let token = await pushNotificationTool();
+        return token;
     }
 
     render() {
@@ -53,6 +60,17 @@ export default class Settings extends Component {
         )
     }
 }
+
+const mapStateToProps = state => {
+    return { token: state.token };
+}
+
+const mapDispatchToProps = {
+    postNotificationToken,
+    postNotificationDelete
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
 
 const styles = StyleSheet.create({
     container: {

@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Button, Picker } from "react-native";
 import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 
-import { getPlayerData } from "../reducer";
+import { getPlayerData, postNotificationSend } from "../reducer";
 
 import Header from "../Components/header";
 import GametimePlot from "../Components/gametimePlot";
@@ -37,6 +37,10 @@ class PlayerDetails extends Component {
         if (itemValue) {
             this.setState({game: itemValue});
         }
+    }
+
+    sendNotification() {
+        this.props.postNotificationSend("Hello World", this.props.token);
     }
 
     render() {
@@ -77,7 +81,7 @@ class PlayerDetails extends Component {
                 <View style={styles.details}>
                     <View style={styles.statusRow}>
                         <Button title="Back to Team" onPress={() => this.handleBack()} />
-                        <Button title="Report Injury" onPress={() => this.handleBack()} />
+                        <Button title="Report Injury" onPress={() => this.sendNotification()} />
                         {/* <Icon name="circle" type="font-awesome" color={active ? '#00bb00' : '#ff0000'} size={20} />
                         <Icon name={batteryIcon} type="font-awesome" color={batteryColor} /> */}
                     </View>
@@ -138,10 +142,11 @@ class PlayerDetails extends Component {
 };
 
 const mapStateToProps = state => {
-    return { data: state.player }
+    return { data: state.player, token: state.token }
 };
 
 const mapDispatchToProps = {
+    postNotificationSend
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerDetails);
