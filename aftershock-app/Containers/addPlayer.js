@@ -1,23 +1,31 @@
 import React from 'react';
-import { View, StyleSheet, Text, KeyboardAvoidingView, Button } from 'react-native';
+import { View, StyleSheet, Text, KeyboardAvoidingView, Button, Picker } from 'react-native';
 import { connect } from 'react-redux';
 import { Input } from 'react-native-elements';
 
 import Header from '../Components/header';
 import { postPlayerData } from '../reducer';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const initialState = {};
+const initialState = {
+    position: 'center'
+};
 
 class AddPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.handleTextChange = this.handleTextChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handlePickerChange = this.handlePickerChange.bind(this);
         this.state = initialState;
     }
 
     handleTextChange(val, key) {
         this.setState({[key]: val});
+    }
+    
+    handlePickerChange(value) {
+        this.setState({position: value});
     }
 
     handleSubmit() {
@@ -42,6 +50,8 @@ class AddPlayer extends React.Component {
             return false;
         } else if (!data.device_id || data.device_id === "") {
             return false;
+        } else if (!data.age || data.age === "") {
+            return false;
         }
         return true;
     }
@@ -49,8 +59,8 @@ class AddPlayer extends React.Component {
         return (
             <View>
                 <Header title="Add New Player" navigation={this.props.navigation} showMenu={false}/>
-                <KeyboardAvoidingView style={styles.container}>
-                    <View style={styles.doubleRow}>
+                <KeyboardAvoidingView style={styles.container} behavior="height">
+                    <ScrollView contentContainerStyle={styles.doubleRow}>
                         <View style={styles.formRow}>
                             <Text style={styles.label}>First Name</Text>
                             <Input
@@ -71,8 +81,6 @@ class AddPlayer extends React.Component {
                                 value={this.state.last_name}
                             />
                         </View>
-                    </View>
-                    <View style={styles.doubleRow}>
                         <View style={styles.formRow}>
                             <Text style={styles.label}>Height (cm)</Text>
                             <Input
@@ -95,8 +103,35 @@ class AddPlayer extends React.Component {
                                 value={this.state.width}
                             />
                         </View>
-                    </View>
-                    <View style={styles.doubleRow}>
+                        <View style={styles.formRow}>
+                            <Text style={styles.label}>Age</Text>
+                            <Input
+                                placeholder='Age'
+                                onChangeText={(val) => this.handleTextChange(val, 'age')}
+                                inputContainerStyle={styles.textInputBox}
+                                inputStyle={styles.textInput}
+                                value={this.state.age}
+                                keyboardType="number-pad"
+                            />
+                        </View>
+                        <View style={styles.formRow}>
+                            <Text style={styles.label}>Position</Text>
+                            <View style={styles.pickerContainer}>
+                                <Picker
+                                        selectedValue={this.state.position}
+                                        style={styles.picker}
+                                        mode="dropdown"
+                                        onValueChange={(itemValue) => {
+                                            this.handlePickerChange(itemValue)
+                                        }}
+                                    >
+                                        <Picker.Item label="Center" value="center" />
+                                        <Picker.Item label="Wing" value="wing" />
+                                        <Picker.Item label="Defence" value="defence" />
+                                        <Picker.Item label="Goalie" value="goalie" />
+                                    </Picker>
+                            </View>
+                        </View>
                         <View style={styles.formRow}>
                             <Text style={styles.label}>Jersey Number</Text>
                             <Input
@@ -118,11 +153,13 @@ class AddPlayer extends React.Component {
                                 value={this.state.device_id}
                             />
                         </View>
-                    </View>
-                    <Text style={styles.errorMessage}>{this.state.error}</Text>
-                    <View style={styles.buttonRow}>
-                        <Button title="Submit" onPress={this.handleSubmit}/>
-                    </View>
+                        <View style={styles.formRow}>
+                            <Text style={styles.errorMessage}>{this.state.error}</Text>
+                            <View style={styles.buttonRow}>
+                                <Button title="Submit" onPress={this.handleSubmit}/>
+                            </View>
+                        </View>
+                    </ScrollView>
                 </KeyboardAvoidingView>
             </View>
         );
@@ -152,7 +189,9 @@ const styles = StyleSheet.create({
   },
   doubleRow: {
     flexDirection: "row",
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
+    flexWrap: "wrap",
+    padding: 5
   },
   formRow: {
     flexDirection: 'column',
@@ -160,7 +199,8 @@ const styles = StyleSheet.create({
     padding: 5
   },
   buttonRow: {
-    margin: 15
+    margin: 15,
+    width: 100
   },
   label: {
     fontSize: 16,
@@ -179,6 +219,20 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
       color: "#e03b24",
-      marginLeft: 10
-  }
+      marginLeft: 10,
+      width: 300
+  },
+  picker: {
+    borderRadius: 10,
+    borderWidth: 1,
+    justifyContent: "center",
+    color: "#000"
+  },
+  pickerContainer: {
+    backgroundColor: "#fff",
+    width: 300,
+    borderWidth: 1,
+    marginLeft: 10,
+    marginRight: 5
+  },  
 });
