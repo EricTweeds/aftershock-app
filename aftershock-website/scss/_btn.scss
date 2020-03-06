@@ -7,16 +7,16 @@
 	font-size: 16px;
     font-weight: 400;
     border: 0;
-    border: 1px solid #615CFD;
+    border: 1px solid #f19a0b;
     // width: 180px;
     text-align: center;
-    color: #615CFD !important;
+    color: #f19a0b !important;
     text-transform: uppercase;
     cursor: pointer;
     &:hover{
-        background: #615CFD;
+        background: #f19a0b;
         color: #fff !important;
-        border: 1px solid #615CFD;
+        border: 1px solid #f19a0b;
     }
     &:focus{
         outline: none;
@@ -27,7 +27,7 @@
 }
 .boxed-btn3 {
         /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#0181f5+0,5db2ff+100 */
-    background: #615CFD;
+    background: #f19a0b;
 	color: #fff;
 	display: inline-block;
 	padding: 12px 33px;
@@ -43,8 +43,8 @@
     @include transition(.5s);
     cursor: pointer;
     &:hover{
-        border: 1px solid #615CFD;
-        color: #615CFD !important;
+        border: 1px solid #f19a0b;
+        color: #f19a0b !important;
         background: transparent ;
     }
     &:focus{
@@ -56,7 +56,7 @@
 }
 .boxed-btn4 {
         /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#0181f5+0,5db2ff+100 */
-    background: #615CFD;
+    background: #f19a0b;
 	color: #fff;
 	display: inline-block;
 	padding: 14px 27px;
@@ -74,7 +74,7 @@
     cursor: pointer;
     letter-spacing: 2px;
     &:hover{
-        background: #615CFD;
+        background: #f19a0b;
         color: #fff !important;
         // border: 1px solid #28AE61;
     }
@@ -120,14 +120,14 @@
 }
 
 .boxed-btn3-green-2 {
-	color: #615CFD !important;
+	color: #f19a0b !important;
 	display: inline-block;
     padding: 14px 31px;
 	font-family: $font1;
 	font-size: 14px;
     font-weight: 400;
     border: 0;
-    border: 1px solid #615CFD;
+    border: 1px solid #f19a0b;
     @include border-radius(5px);
     // width: 180px;
     text-align: center;
@@ -136,7 +136,7 @@
     cursor: pointer;
     letter-spacing: 2px;
     &:hover{
-        background: #615CFD;
+        background: #f19a0b;
         color: #fff !important;
         border: 1px solid transparent;
     }
@@ -194,13 +194,13 @@
 .line_btn{
     display: inline-block;
     font-size: 15px;
-    color: #615CFD;
-    border: 1px solid #615CFD;
+    color: #f19a0b;
+    border: 1px solid #f19a0b;
     text-transform: capitalize;
     padding: 13px 34px;
     font-weight: 600;
     &:hover{
-        background: #615CFD;
+        background: #f19a0b;
         color: #fff;
     }
 }
