@@ -1149,7 +1149,7 @@ h3 {
 
 /* line 4, ../../Arafath/CL/December/233. Startup/HTML/scss/_slider.scss */
 .slider_bg_2 {
-  background-image: url(../img/FYPD_IRC.jpg);
+  background-image: url(../img/FYPD_IRC_2.jpg);
 }
 
 /* line 9, ../../Arafath/CL/December/233. Startup/HTML/scss/_slider.scss */
@@ -3650,7 +3650,7 @@ h3 {
 .portfolio_details_banner {
   background: #1F1F1F;
   padding-top: 220px;
-  padding-bottom: 470px;
+  padding-bottom: 350px;
 }
 
 @media (max-width: 767px) {
@@ -3736,7 +3736,7 @@ h3 {
 
 /* line 67, ../../Arafath/CL/December/233. Startup/HTML/scss/_portfolio_details.scss */
 .portfolio_details_wrap {
-  padding-bottom: 130px;
+  padding-bottom: 77px;
   position: relative;
   margin-top: -380px;
 }
