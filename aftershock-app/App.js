@@ -42,14 +42,16 @@ const MainNavigator = createStackNavigator({
 
 const Stack = createAppContainer(MainNavigator);
 
-export default function App() {
-  return (
-    <Provider store={store}>
-      <MenuProvider>
-        <Stack />
-      </MenuProvider>
-    </Provider>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <MenuProvider>
+          <Stack />
+        </MenuProvider>
+      </Provider>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

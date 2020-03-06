@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { NavigationEvents } from 'react-navigation';
 
 import { getTeamData } from '../reducer';
 
@@ -14,18 +15,12 @@ class Players extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        if (!this.props.players) {
-            this.props.getTeamData(this.props.token);
-        }
-    }
-
     handlePress(data) {
         if (data === 'add') {
             this.props.navigation.navigate('AddPlayer');
         } else {
             this.props.navigation.navigate('PlayerDetails', {
-                player: data
+                player_id: data
             });
         }   
     }
@@ -33,11 +28,12 @@ class Players extends React.Component {
     render() {
         return (
             <View style={StyleSheet.absoluteFill}>
+                <NavigationEvents onDidFocus={() => this.props.getTeamData(this.props.token)} />
                 <Header title="Players" navigation={this.props.navigation} showMenu={true}/>
                 <ScrollView contentContainerStyle={styles.container}>
                     {this.props.players ? this.props.players.map((player, i) => {
                         return (
-                            <TouchableOpacity key={player.id} onPress={() => this.handlePress(player)}>
+                            <TouchableOpacity key={player.id} onPress={() => this.handlePress(player.id)}>
                                 <Card {...player} key={"player-" + i}/>
                             </TouchableOpacity>
                         );

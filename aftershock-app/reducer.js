@@ -9,6 +9,7 @@ export const POST_LOGIN_FAIL = "aftershock/login/LOAD_FAIL";
 export const GET_PING = "aftershock/login/PING";
 
 export const GET_PLAYER_DATA = "aftershock/playerDetails/GET_PLAYER_DATA";
+export const GET_PLAYER_DATA_SUCCESS = "aftershock/playerDetails/GET_PLAYER_DATA_SUCCESS";
 
 export const GET_TEAM_DATA = "aftershock/players/GET_TEAM_DATA";
 export const GET_TEAM_DATA_SUCCESS = "aftershock/players/GET_TEAM_DATA_SUCCESS";
@@ -36,8 +37,10 @@ export default function reducer(state = { login: false, player: {} }, action) {
             return { ...state, awake: true }
         case GET_TEAM_DATA_SUCCESS:
             return { ...state, players: action.payload.data.players }
-        case GET_PLAYER_DATA:
-            return { ...state, player: PlayerData[action.id] }
+        case GET_PLAYER_DATA_SUCCESS:
+            let playerDetails = state.playerDetails ? state.playerDetails : {};
+            playerDetails[action.payload.data.player.id] = action.payload.data;
+            return { ...state, playerDetails }
         case POST_PLAYER_DATA: {
             return {...state};
         }
@@ -92,14 +95,17 @@ export function getTeamData(token) {
     };
 }
 
-export function getPlayerData(player_id) {
+export function getPlayerData(player_id, token) {
     return {
         type: GET_PLAYER_DATA,
         id: player_id,
         payload: {
             request: {
                 method: 'get',
-                url: `/player/${player_id}`
+                url: `/player/${player_id}`,
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
             }
         }
     };

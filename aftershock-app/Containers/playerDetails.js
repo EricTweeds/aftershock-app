@@ -16,15 +16,24 @@ class PlayerDetails extends Component {
         this.handlePickerChange = this.handlePickerChange.bind(this);
     }
 
-    state = { player: {}};
+    state = { game: 0};
 
     componentDidMount() {
-        const { player } = this.props.navigation.state.params;
-        this.setState({player, game: 0});
+        const { player_id } = this.props.navigation.state.params;
+        this.props.getPlayerData(player_id, this.props.token);
+        this.setState({id: player_id});
+    }
+
+    componentDidUpdate(nextProps) {
+        let oldPlayer = this.props.playerDetails && this.props.playerDetails[this.state.id] && this.props.playerDetails[this.state.id].player ? this.props.playerDetails[this.state.id] : {};
+        let player = nextProps.playerDetails && nextProps.playerDetails[this.state.id] && nextProps.playerDetails[this.state.id].player ? nextProps.playerDetails[this.state.id] : {};
+        if (player.id !== oldPlayer.id) {
+            this.forceUpdate();
+        }
     }
     
     handleBack() {
-        this.props.navigation.navigate('Players')
+        this.props.navigation.navigate('Players');
     }
 
     handlePointTouch(data) {
@@ -40,44 +49,44 @@ class PlayerDetails extends Component {
     }
 
     sendNotification() {
-        this.props.postNotificationSend("Hello World", this.props.token);
+        this.props.postNotificationSend("Injury Reported", this.props.token);
     }
 
     render() {
-        const { first_name, last_name, device_active, battery, at_risk_percentage, age, position, gamesPlayed, totalCollisions, largest_impact, currentGame, height_cm, weight_kg } = this.state.player;
+        let player = this.props.playerDetails && this.props.playerDetails[this.state.id] && this.props.playerDetails[this.state.id].player ? this.props.playerDetails[this.state.id] : {};
 
-        let batteryIcon = "battery-empty";
-        let batteryColor = '#ff0000';
-        if (battery > 0 && battery <= 25) {
-            batteryIcon = "battery-quarter";
-        } else if (battery > 25 && battery <= 50) {
-            batteryIcon = "battery-half";
-            batteryColor = 'orange';
-        } else if (battery > 50 && battery <= 75) {
-            batteryIcon = "battery-three-quarters";
-            batteryColor = 'black';
-        } else if (battery > 75) {
-            batteryIcon = "battery-full";
-            batteryColor = 'black';
-        }
+        // let batteryIcon = "battery-empty";
+        // let batteryColor = '#ff0000';
+        // if (battery > 0 && battery <= 25) {
+        //     batteryIcon = "battery-quarter";
+        // } else if (battery > 25 && battery <= 50) {
+        //     batteryIcon = "battery-half";
+        //     batteryColor = 'orange';
+        // } else if (battery > 50 && battery <= 75) {
+        //     batteryIcon = "battery-three-quarters";
+        //     batteryColor = 'black';
+        // } else if (battery > 75) {
+        //     batteryIcon = "battery-full";
+        //     batteryColor = 'black';
+        // }
 
         let riskColor;
         let riskText = "unknown";
 
-        if (at_risk_percentage < 40) {
+        if (player.at_risk_percentage < 40) {
             riskColor = "#64a338";
             riskText = "Good";
-        } else if (at_risk_percentage >= 40 && at_risk_percentage < 60) {
+        } else if (player.at_risk_percentage >= 40 && player.at_risk_percentage < 60) {
             riskColor = "#ffcc00";
             riskText = "Warning";
         } else {
             riskColor = "#e03b24";
             riskText = "Danger"
         }
-
+        let name = player.first_name && player.last_name ? player.first_name + " " + player.last_name : "";
         return (
             <View style={styles.container}>
-                <Header title={first_name + " " + last_name} navigation={this.props.navigation} showMenu={true}/>
+                <Header title={name} navigation={this.props.navigation} showMenu={true}/>
                 <View style={styles.details}>
                     <View style={styles.statusRow}>
                         <Button title="Back to Team" onPress={() => this.handleBack()} />
@@ -88,31 +97,31 @@ class PlayerDetails extends Component {
                     <View style={styles.detailsRow}>
                         <View style={styles.picColumn}>
                             <View style={{...styles.pic, backgroundColor: riskColor}}>
-                                <Text style={styles.number}>{at_risk_percentage}%</Text>
+                                <Text style={styles.number}>{player.at_risk_percentage}%</Text>
                                 <Text style={styles.risk}>{riskText}</Text>
                             </View>
-                            <Text style={{...styles.onlineStatus, color: device_active ? "#64a338" : '#e03b24'}}>{device_active ? "Online" : "Offline"}</Text>
+                            <Text style={{...styles.onlineStatus, color: player.device_active ? "#64a338" : '#e03b24'}}>{player.device_active ? "Online" : "Offline"}</Text>
                             {/* <View style={{...styles.status, backgroundColor: "#00bb00"}}>
                                 <Text style={styles.statusText}>{status}</Text>
                             </View> */}
                         </View>
                         <View style={styles.dataColumn}>
                             <View style={styles.infoRow}><Text style={styles.info}>Team: </Text><Text style={styles.info}>Waterloo Warriors</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Position: </Text><Text style={styles.info}>{position}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Height: </Text><Text style={styles.info}>{height_cm}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Weight: </Text><Text style={styles.info}>{weight_kg}</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Position: </Text><Text style={styles.info}>{player.position}</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Height: </Text><Text style={styles.info}>{player.height_cm}</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Weight: </Text><Text style={styles.info}>{player.weight_kg}</Text></View>
                         </View>
                         <View style={styles.dataColumn}>
-                            <View style={styles.infoRow}><Text style={styles.info}>Age: </Text><Text style={styles.info}>{age}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Games Played: </Text><Text style={styles.info}>{gamesPlayed}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>All-Time Max: </Text><Text style={styles.info}>{largest_impact}g</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Total Collisions: </Text><Text style={styles.info}>{totalCollisions}</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Age: </Text><Text style={styles.info}>{player.age}</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Games Played: </Text><Text style={styles.info}>{player.gamesPlayed}</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>All-Time Max: </Text><Text style={styles.info}>{player.largest_impact}g</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Total Collisions: </Text><Text style={styles.info}>{player.totalCollisions}</Text></View>
                         </View>
                     </View>
                 </View>
                 <View style={styles.currentGameData}>
                     <View style={styles.plot}>
-                        {currentGame ? <GametimePlot data={currentGame} handleTouch={this.handlePointTouch} selected={this.state.selected}/> : null}
+                        {player.currentGame ? <GametimePlot data={player.currentGame} handleTouch={this.handlePointTouch} selected={this.state.selected}/> : null}
                     </View>
                     <View style={styles.plotDetails}>
                             <View style={styles.pickerContainer}>
@@ -142,11 +151,12 @@ class PlayerDetails extends Component {
 };
 
 const mapStateToProps = state => {
-    return { data: state.player, token: state.token }
+    return { player: state.player, token: state.token, playerDetails: state.playerDetails }
 };
 
 const mapDispatchToProps = {
-    postNotificationSend
+    postNotificationSend,
+    getPlayerData
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerDetails);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { connect } from 'react-redux';
+import { Notifications } from 'expo';
 
 import { retrieveItem } from '../Tools/asyncStorageTool';
 
@@ -23,6 +24,15 @@ class StartupScreen extends Component {
             this.props.navigation.navigate('Login');
           }
         });
+        this._notificationSubscription = Notifications.addListener(this._handleNotifications);
+    }
+    
+    _handleNotifications = notification => {
+        if (notification.data && notification.data.player_id && notification.origin === 'selected') {
+            this.props.navigation.navigate('PlayerDetails', {
+                player_id: notification.data.player_id
+            });
+        }
     }
 
     render() {

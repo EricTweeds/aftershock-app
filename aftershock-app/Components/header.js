@@ -24,7 +24,7 @@ export default class Header extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.text}>{this.props.title}</Text>
+                <Text style={styles.text}>{this.props.title ? this.props.title : "AfterShock"}</Text>
                 {this.props.showMenu ? 
                 <Menu>
                     <MenuTrigger style={styles.menuTrigger}><Icon name="ellipsis-v" type="font-awesome"/></MenuTrigger>

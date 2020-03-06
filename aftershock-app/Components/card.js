@@ -24,6 +24,8 @@ export default class Card extends React.Component {
             batteryColor = 'black';
         }
 
+        let name = this.props.first_name[0] + ". " + this.props.last_name;
+
         return (
             <View style={styles.container}>
                 <View style={styles.headerContainer}>
@@ -31,7 +33,7 @@ export default class Card extends React.Component {
                     <Icon name="circle" type="font-awesome" color={this.props.device_active ? '#00bb00' : '#ff0000'} size={20} />
                 </View>
                 <Text style={styles.number}>{this.props.jersey_number}</Text>
-                <Text style={styles.name}>{this.props.first_name[0] + ". " + this.props.last_name}</Text>
+                <Text style={styles.name}>{name}</Text>
                 <View style={styles.line} />
                 <View style={styles.dataContainer}>
                     <Text style={styles.status}>Risk:</Text>
