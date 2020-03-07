@@ -39,8 +39,8 @@ export default function reducer(state = { login: false, player: {} }, action) {
             return { ...state, players: action.payload.data.players }
         case GET_PLAYER_DATA_SUCCESS:
             let playerDetails = state.playerDetails ? state.playerDetails : {};
-            playerDetails[action.payload.data.player.id] = action.payload.data;
-            return { ...state, playerDetails }
+            playerDetails[action.payload.data.player.id] = action.payload.data.player;
+            return { ...state, playerDetails: playerDetails }
         case POST_PLAYER_DATA: {
             return {...state};
         }

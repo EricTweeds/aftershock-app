@@ -23,14 +23,6 @@ class PlayerDetails extends Component {
         this.props.getPlayerData(player_id, this.props.token);
         this.setState({id: player_id});
     }
-
-    componentDidUpdate(nextProps) {
-        let oldPlayer = this.props.playerDetails && this.props.playerDetails[this.state.id] && this.props.playerDetails[this.state.id].player ? this.props.playerDetails[this.state.id] : {};
-        let player = nextProps.playerDetails && nextProps.playerDetails[this.state.id] && nextProps.playerDetails[this.state.id].player ? nextProps.playerDetails[this.state.id] : {};
-        if (player.id !== oldPlayer.id) {
-            this.forceUpdate();
-        }
-    }
     
     handleBack() {
         this.props.navigation.navigate('Players');
@@ -53,7 +45,7 @@ class PlayerDetails extends Component {
     }
 
     render() {
-        let player = this.props.playerDetails && this.props.playerDetails[this.state.id] && this.props.playerDetails[this.state.id].player ? this.props.playerDetails[this.state.id] : {};
+        let player = this.props.playerDetails && this.props.playerDetails[this.state.id] && this.props.playerDetails[this.state.id] ? this.props.playerDetails[this.state.id] : {};
 
         // let batteryIcon = "battery-empty";
         // let batteryColor = '#ff0000';
