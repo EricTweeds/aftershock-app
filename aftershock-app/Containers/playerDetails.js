@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, Button, Picker } from "react-native";
-import { Icon } from "react-native-elements";
 import { connect } from 'react-redux';
 
-import { getPlayerData, postNotificationSend } from "../reducer";
+import { getPlayerData, postNotificationSend, getGameStarts, getGameData } from "../reducer";
+
+import { formatMonthDay } from '../Tools/dateTools';
 
 import Header from "../Components/header";
 import GametimePlot from "../Components/gametimePlot";
@@ -21,6 +22,7 @@ class PlayerDetails extends Component {
     componentDidMount() {
         const { player_id } = this.props.navigation.state.params;
         this.props.getPlayerData(player_id, this.props.token);
+        this.props.getGameStarts(player_id, this.props.token);
         this.setState({id: player_id});
     }
     
@@ -35,7 +37,8 @@ class PlayerDetails extends Component {
     }
 
     handlePickerChange(itemValue) {
-        if (itemValue) {
+        if (itemValue !== undefined) {
+            this.props.getGameData(this.state.id, itemValue, this.props.token);
             this.setState({game: itemValue});
         }
     }
@@ -45,23 +48,11 @@ class PlayerDetails extends Component {
     }
 
     render() {
-        let player = this.props.playerDetails && this.props.playerDetails[this.state.id] && this.props.playerDetails[this.state.id] ? this.props.playerDetails[this.state.id] : {};
+        let player = this.props.playerDetails && this.props.playerDetails[this.state.id] ? this.props.playerDetails[this.state.id] : {};
+        let games = this.props.gameStarts && this.props.gameStarts[this.state.id] ? this.props.gameStarts[this.state.id] : [];
+        let gameData = this.props.gameData ? this.props.gameData : [];
 
-        // let batteryIcon = "battery-empty";
-        // let batteryColor = '#ff0000';
-        // if (battery > 0 && battery <= 25) {
-        //     batteryIcon = "battery-quarter";
-        // } else if (battery > 25 && battery <= 50) {
-        //     batteryIcon = "battery-half";
-        //     batteryColor = 'orange';
-        // } else if (battery > 50 && battery <= 75) {
-        //     batteryIcon = "battery-three-quarters";
-        //     batteryColor = 'black';
-        // } else if (battery > 75) {
-        //     batteryIcon = "battery-full";
-        //     batteryColor = 'black';
-        // }
-
+        console.log(games, gameData);
         let riskColor;
         let riskText = "unknown";
 
@@ -100,13 +91,13 @@ class PlayerDetails extends Component {
                         <View style={styles.dataColumn}>
                             <View style={styles.infoRow}><Text style={styles.info}>Team: </Text><Text style={styles.info}>Waterloo Warriors</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>Position: </Text><Text style={styles.info}>{player.position}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Height: </Text><Text style={styles.info}>{player.height_cm}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Weight: </Text><Text style={styles.info}>{player.weight_kg}</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Height: </Text><Text style={styles.info}>{player.height_cm} cm</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Weight: </Text><Text style={styles.info}>{player.weight_kg} lbs</Text></View>
                         </View>
                         <View style={styles.dataColumn}>
                             <View style={styles.infoRow}><Text style={styles.info}>Age: </Text><Text style={styles.info}>{player.age}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Games Played: </Text><Text style={styles.info}>{player.gamesPlayed}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>All-Time Max: </Text><Text style={styles.info}>{player.largest_impact}g</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Largest Impact: </Text><Text style={styles.info}>{player.largest_impact}g</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Largest Rotational Impact: </Text><Text style={styles.info}>{player.largest_rotation}g</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>Total Collisions: </Text><Text style={styles.info}>{player.totalCollisions}</Text></View>
                         </View>
                     </View>
@@ -125,8 +116,12 @@ class PlayerDetails extends Component {
                                         this.handlePickerChange(itemValue, index)
                                     }}
                                 >
-                                    <Picker.Item label="Current Game" value={1} />
-                                    <Picker.Item label="Feb. 12" value={2} />
+                                    {games.map((game, i) => {
+                                        let label = formatMonthDay(game.timestamp);
+                                        return (
+                                            <Picker.Item label={label} value={game.id} key={game.id}/>
+                                        );
+                                    })}
                                 </Picker>
                             </View>
                             {this.state.selected ? <View style={styles.pointData}>
@@ -143,12 +138,20 @@ class PlayerDetails extends Component {
 };
 
 const mapStateToProps = state => {
-    return { player: state.player, token: state.token, playerDetails: state.playerDetails }
+    return { 
+        player: state.player,
+        token: state.token,
+        playerDetails: state.playerDetails,
+        gameStarts: state.game_starts,
+        gameData: state.gameData
+    }
 };
 
 const mapDispatchToProps = {
     postNotificationSend,
-    getPlayerData
+    getPlayerData,
+    getGameStarts,
+    getGameData
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerDetails);

@@ -14,6 +14,12 @@ export const GET_PLAYER_DATA_SUCCESS = "aftershock/playerDetails/GET_PLAYER_DATA
 export const GET_TEAM_DATA = "aftershock/players/GET_TEAM_DATA";
 export const GET_TEAM_DATA_SUCCESS = "aftershock/players/GET_TEAM_DATA_SUCCESS";
 
+export const GET_GAME_STARTS = "aftershock/player/GET_GAME_STARTS";
+export const GET_GAME_STARTS_SUCCESS = "aftershock/player/GET_GAME_STARTS_SUCCESS";
+
+export const GET_GAME_DATA = 'aftershock/player/GET_GAME_DATA';
+export const GET_GAME_DATA_SUCCESS = 'aftershock/player/GET_GAME_DATA_SUCCESS';
+
 export const POST_PLAYER_DATA = "aftershock/player/POST_PLAYER_DATA";
 
 export const POST_NOTIFICATION_TOKEN = "aftershock/notifications/POST_NOTIFICATION_TOKEN";
@@ -44,6 +50,13 @@ export default function reducer(state = { login: false, player: {} }, action) {
         case POST_PLAYER_DATA: {
             return {...state};
         }
+        case GET_GAME_STARTS_SUCCESS:
+            let game_starts = state.game_starts ? state.game_starts : {};
+            game_starts[action.meta.previousAction.id] = action.payload.data.game_starts;
+            return {...state, game_starts: game_starts};
+        case GET_GAME_DATA_SUCCESS:
+            console.log(action.payload)
+            return{ ...state, gameData: action.payload.data};
         case STORE_TOKEN:
             return { ...state, token: action.token}
         default:
@@ -181,3 +194,33 @@ export function postNotificationDelete(bearerToken) {
     }
 }
 
+export function getGameStarts(player_id, bearerToken) {
+    return {
+        type: GET_GAME_STARTS,
+        id: player_id,
+        payload: {
+            request: {
+                method: 'get',
+                url:`/game_start/player/${player_id}`,
+                headers: {
+                    Authorization: 'Bearer ' + bearerToken
+                }
+            }
+        }
+    }
+}
+
+export function getGameData(player_id, game_id, bearerToken) {
+    return {
+        type: GET_GAME_DATA,
+        payload: {
+            request: {
+                method: 'get',
+                url: `/player/${player_id}/game_start/${game_id}/data`,
+                headers: {
+                    Authorization: 'Bearer ' + bearerToken
+                }
+            }
+        }
+    }
+}
