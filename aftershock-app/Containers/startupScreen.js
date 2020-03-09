@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 import { connect } from 'react-redux';
 import { Notifications } from 'expo';
+
+import logo from "../assets/blue_logo.png";
 
 import { retrieveItem } from '../Tools/asyncStorageTool';
 
@@ -38,7 +40,7 @@ class StartupScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.title}>AFTERSHOCK</Text>
+                <Image source={logo} />
             </View>
         );
     }

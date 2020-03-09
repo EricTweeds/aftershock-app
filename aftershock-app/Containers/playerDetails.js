@@ -25,7 +25,8 @@ class PlayerDetails extends Component {
         this.props.getPlayerData(player_id, this.props.token);
         this.props.getGameStarts(player_id, this.props.token);
         this.setState({id: player_id});
-        setInterval(this.loadGameData, 10000);
+        let intervalId = setInterval(this.loadGameData, 5000);
+        this.setState({intervalId});
     }
 
     async loadGameData() {
@@ -35,8 +36,13 @@ class PlayerDetails extends Component {
             console.log(e);
         }
     }
+
+    componentWillUnmount() {
+        clearInterval(this.state.intervalId);
+    }
     
     handleBack() {
+        clearInterval(this.state.intervalId);
         this.props.navigation.navigate('Players');
     }
 
@@ -140,9 +146,13 @@ class PlayerDetails extends Component {
                                 </Picker>
                             </View>
                             {this.state.selected ? <View style={styles.pointData}>
-                            <View style={styles.pointRow}><Text style={styles.info}>Time: </Text><Text style={styles.info}>{this.state.selected.time}</Text></View>
-                            <View style={styles.pointRow}><Text style={styles.info}>Linear: </Text><Text style={styles.info}>{this.state.selected.acceleration}</Text></View>
-                            <View style={styles.pointRow}><Text style={styles.info}>Rotational: </Text><Text style={styles.info}>{this.state.selected.rotational}</Text></View>
+                            <View style={styles.pointRow}><Text style={styles.info}>Time: </Text><Text style={styles.info}>{this.state.selected.time} ms</Text></View>
+                            <View style={styles.pointRow}><Text style={styles.info}>Linear: </Text><Text style={styles.info}>{this.state.selected.acceleration}g</Text></View>
+                            <View style={styles.pointRow}><Text style={styles.info}>Rotational: </Text>
+                                <View style={styles.rotationalRow}>
+                                    <Text style={styles.info}>{this.state.selected.rotational} rad/s</Text>
+                                    <Text style={{lineHeight: 10, fontSize: 10}}>2</Text>
+                                </View></View>
                             </View> : null}
                             <Button title="More Details" />
                     </View>

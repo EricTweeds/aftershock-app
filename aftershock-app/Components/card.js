@@ -41,7 +41,7 @@ export default class Card extends React.Component {
                 </View>
                 <View style={styles.dataContainer}>
                     <Text style={styles.max}>Max Impact:</Text>
-                    <Text style={styles.max}>{this.props.largest_impact ? this.props.largest_impact + "g" : "--"}</Text>
+                    <Text style={styles.max}>{this.props.largest_impact ? this.props.largest_impact.toFixed(2) + "g" : "--"}</Text>
                 </View>
             </View>
         );

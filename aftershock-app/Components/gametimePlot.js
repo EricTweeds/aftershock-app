@@ -6,6 +6,7 @@ import { VictoryScatter, VictoryChart, VictoryTheme, VictoryAxis, VictoryVoronoi
 export default class GametimePlot extends Component {
     render() {
         let { data, selected } = this.props;
+        let baseTime = moment(data[data.length - 1].timestamp, "ddd, DD MMM YYYY HH:mm:ss:SSSSSS").valueOf();
         data = data.map(point => {
             let color = "#64a338";
             if (point.linear_acceleration_magnitude > 10 || point.rotational > 10) {
@@ -17,7 +18,7 @@ export default class GametimePlot extends Component {
                 color = "#87a2c7";
             }
             let momentTime = moment(point.timestamp, "ddd, DD MMM YYYY HH:mm:ss:SSSSSS");
-            let time = momentTime.milliseconds() + momentTime.seconds()*1000;
+            let time = momentTime.valueOf() - baseTime;
             return {
                 time: time,
                 acceleration: point.linear_acceleration_magnitude,
