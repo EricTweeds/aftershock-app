@@ -17,6 +17,7 @@ export const GET_GAME_STARTS_SUCCESS = "aftershock/player/GET_GAME_STARTS_SUCCES
 
 export const GET_GAME_DATA = 'aftershock/player/GET_GAME_DATA';
 export const GET_GAME_DATA_SUCCESS = 'aftershock/player/GET_GAME_DATA_SUCCESS';
+export const GET_GAME_DATA_FAIL = 'aftershock/player/GET_GAME_DATA_FAIL';
 
 export const POST_PLAYER_DATA = "aftershock/player/POST_PLAYER_DATA";
 
@@ -53,7 +54,11 @@ export default function reducer(state = { login: false, player: {} }, action) {
             game_starts[action.meta.previousAction.id] = action.payload.data.game_starts;
             return {...state, game_starts: game_starts};
         case GET_GAME_DATA_SUCCESS:
+            console.log("success");
             return{ ...state, gameData: action.payload.data};
+        case GET_GAME_DATA_FAIL:
+            console.log("fail");
+            return {...state};
         case STORE_TOKEN:
             return { ...state, token: action.token}
         default:
@@ -213,7 +218,7 @@ export function getGameData(player_id, game_id, bearerToken) {
         payload: {
             request: {
                 method: 'get',
-                url: `/player/${player_id}/game_start/${game_id}/data`,
+                url: `/player/${player_id}/game_start/${game_id}/data?limit=100`,
                 headers: {
                     Authorization: 'Bearer ' + bearerToken
                 }

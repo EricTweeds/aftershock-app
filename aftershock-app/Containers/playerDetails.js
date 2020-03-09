@@ -15,6 +15,7 @@ class PlayerDetails extends Component {
         this.handleBack = this.handleBack.bind(this);
         this.handlePointTouch = this.handlePointTouch.bind(this);
         this.handlePickerChange = this.handlePickerChange.bind(this);
+        this.loadGameData = this.loadGameData.bind(this);
     }
 
     state = { game: 0};
@@ -24,6 +25,15 @@ class PlayerDetails extends Component {
         this.props.getPlayerData(player_id, this.props.token);
         this.props.getGameStarts(player_id, this.props.token);
         this.setState({id: player_id});
+        setInterval(this.loadGameData, 10000);
+    }
+
+    async loadGameData() {
+        try {
+            this.props.getGameData(this.state.id, this.state.game, this.props.token);
+        } catch (e) {
+            console.log(e);
+        }
     }
     
     handleBack() {
