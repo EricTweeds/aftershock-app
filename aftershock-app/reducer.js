@@ -1,7 +1,5 @@
 import { AsyncStorage } from "react-native";
 
-import { TeamData, PlayerData } from './dataObjects';
-
 export const POST_LOGIN = "aftershock/login/LOAD";
 export const POST_LOGIN_SUCCESS = "aftershock/login/LOAD_SUCCESS";
 export const POST_LOGIN_FAIL = "aftershock/login/LOAD_FAIL";
@@ -55,7 +53,6 @@ export default function reducer(state = { login: false, player: {} }, action) {
             game_starts[action.meta.previousAction.id] = action.payload.data.game_starts;
             return {...state, game_starts: game_starts};
         case GET_GAME_DATA_SUCCESS:
-            console.log(action.payload)
             return{ ...state, gameData: action.payload.data};
         case STORE_TOKEN:
             return { ...state, token: action.token}

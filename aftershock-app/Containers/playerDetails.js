@@ -50,9 +50,8 @@ class PlayerDetails extends Component {
     render() {
         let player = this.props.playerDetails && this.props.playerDetails[this.state.id] ? this.props.playerDetails[this.state.id] : {};
         let games = this.props.gameStarts && this.props.gameStarts[this.state.id] ? this.props.gameStarts[this.state.id] : [];
-        let gameData = this.props.gameData ? this.props.gameData : [];
+        let gameData = this.props.gameData ? this.props.gameData.data : [];
 
-        console.log(games, gameData);
         let riskColor;
         let riskText = "unknown";
 
@@ -97,14 +96,20 @@ class PlayerDetails extends Component {
                         <View style={styles.dataColumn}>
                             <View style={styles.infoRow}><Text style={styles.info}>Age: </Text><Text style={styles.info}>{player.age}</Text></View>
                             <View style={styles.infoRow}><Text style={styles.info}>Largest Impact: </Text><Text style={styles.info}>{player.largest_impact}g</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Largest Rotational Impact: </Text><Text style={styles.info}>{player.largest_rotation}g</Text></View>
+                            <View style={styles.infoRow}>
+                                <Text style={styles.info}>Largest Rotational Impact: </Text>
+                                <View style={styles.rotationalRow}>
+                                    <Text style={styles.info}>{player.largest_rotation ? player.largest_rotation.toFixed(0) : ""} rad/s</Text>
+                                    <Text style={{lineHeight: 10, fontSize: 10}}>2</Text>
+                                </View>
+                            </View>
                             <View style={styles.infoRow}><Text style={styles.info}>Total Collisions: </Text><Text style={styles.info}>{player.totalCollisions}</Text></View>
                         </View>
                     </View>
                 </View>
                 <View style={styles.currentGameData}>
                     <View style={styles.plot}>
-                        {player.currentGame ? <GametimePlot data={player.currentGame} handleTouch={this.handlePointTouch} selected={this.state.selected}/> : null}
+                        {gameData.length ? <GametimePlot data={gameData} handleTouch={this.handlePointTouch} selected={this.state.selected}/> : null}
                     </View>
                     <View style={styles.plotDetails}>
                             <View style={styles.pickerContainer}>
@@ -229,6 +234,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 5
     },
+    rotationalRow: {
+        flexDirection: "row",
+        justifyContent: "flex-end"
+    },  
     dataColumn: {
         minWidth: 300,
         justifyContent: "center"

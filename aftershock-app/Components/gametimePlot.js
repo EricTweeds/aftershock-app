@@ -15,8 +15,12 @@ export default class GametimePlot extends Component {
             if (selected && point.time === selected.time) {
                 color = "#87a2c7";
             }
+            let time = new Date(Date.parse(point.timestamp));
+            time = time.getUTCSeconds() + 60*time.getUTCMinutes();
             return {
-                ...point,
+                time: time,
+                acceleration: point.linear_acceleration_magnitude,
+                rotational: point.rotational_acceleration,
                 fill: color
             }
         });
@@ -50,7 +54,7 @@ export default class GametimePlot extends Component {
                         y="acceleration"
                         bubbleProperty="rotational"
                         minBubbleSize={1}
-                        maxBubbleSize={20}
+                        maxBubbleSize={5}
                         style={{
                             data: {
                                 fill: ({ datum }) => datum.fill
