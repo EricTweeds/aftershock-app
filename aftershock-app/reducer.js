@@ -26,6 +26,8 @@ export const POST_NOTIFICATION_SEND = "aftershock/notifications/POST_NOTIFICATIO
 export const POST_NOTIFICATION_DELETE = "aftershock/notifications/POST_NOTIFICATION_DELETE";
 
 export const STORE_TOKEN = "aftershock/STORE_TOKEN";
+export const STORE_NUM_DATA_POINTS = "aftershock/STORE_NUM_DATA_POINTS";
+export const STORE_REFRESH_RATE = "aftershock/STORE_REFRESH_RATE";
 
 export default function reducer(state = { login: false, player: {} }, action) {
     switch(action.type) {
@@ -54,13 +56,15 @@ export default function reducer(state = { login: false, player: {} }, action) {
             game_starts[action.meta.previousAction.id] = action.payload.data.game_starts;
             return {...state, game_starts: game_starts};
         case GET_GAME_DATA_SUCCESS:
-            console.log("success");
             return{ ...state, gameData: action.payload.data};
         case GET_GAME_DATA_FAIL:
-            console.log("fail");
             return {...state};
         case STORE_TOKEN:
-            return { ...state, token: action.token}
+            return { ...state, token: action.token};
+        case STORE_NUM_DATA_POINTS:
+            return { ...state, numDataPoints: action.dataPoints};
+        case STORE_REFRESH_RATE:
+            return { ...state, refreshRate: action.refreshRate};
         default:
             return state;
     }
@@ -149,6 +153,20 @@ export function storeToken(token) {
     }
 }
 
+export function storeNumDataPoints(val) {
+    return {
+        type: STORE_NUM_DATA_POINTS,
+        dataPoints: val
+    }
+}
+
+export function storeRefreshRate(val) {
+    return {
+        type: STORE_REFRESH_RATE,
+        refreshRate: val
+    }
+}
+
 export function postNotificationToken(notifToken, bearerToken) {
     return {
         type: POST_NOTIFICATION_TOKEN,
@@ -212,13 +230,13 @@ export function getGameStarts(player_id, bearerToken) {
     }
 }
 
-export function getGameData(player_id, game_id, bearerToken) {
+export function getGameData(player_id, game_id, bearerToken, numDataPoints) {
     return {
         type: GET_GAME_DATA,
         payload: {
             request: {
                 method: 'get',
-                url: `/player/${player_id}/game_start/${game_id}/data?limit=100`,
+                url: `/player/${player_id}/game_start/${game_id}/data?limit=${numDataPoints ? numDataPoints : 500}`,
                 headers: {
                     Authorization: 'Bearer ' + bearerToken
                 }

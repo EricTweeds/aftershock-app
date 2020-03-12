@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { View, Text, Switch, StyleSheet } from "react-native";
+import { Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import Header from "../Components/header";
 import pushNotificationTool from "../Tools/pushNotificationTool";
 import { retrieveItem, setItem } from '../Tools/asyncStorageTool';
 
-import { postNotificationToken, postNotificationDelete } from '../reducer';
+import { postNotificationToken, postNotificationDelete, storeNumDataPoints, storeRefreshRate } from '../reducer';
 
 class Settings extends Component {
     constructor(props) {
@@ -21,6 +22,12 @@ class Settings extends Component {
             const val = notifications === "true";
             this.setState({enable_notifications: val});
         });
+        retrieveItem('numDataPoints').then((numDataPoints) => {
+            this.setState({dataPoints: numDataPoints});
+        });
+        retrieveItem('refreshRate').then((refreshRate) => {
+            this.setState({refreshRate: refreshRate});
+        });
     }
 
     handleNotificationChange(val) {
@@ -33,6 +40,18 @@ class Settings extends Component {
             this.props.postNotificationDelete(this.props.token);
         }
         setItem('allowNotifications', val.toString());
+    }
+
+    handleNumPointsChange(val) {
+        this.setState({dataPoints: val});
+        this.props.storeNumDataPoints(val);
+        setItem('numDataPoints', val.toString());
+    }
+
+    handleRefreshRateChange(val) {
+        this.setState({refreshRate: val});
+        this.props.storeRefreshRate(val);
+        setItem('refreshRate', val.toString());
     }
 
     async getToken() {
@@ -55,6 +74,29 @@ class Settings extends Component {
                             thumbColor="#8b9dc3"
                         />
                     </View>
+                    <Text style={styles.sectionHeader}>Display Options</Text>
+                    <View style={styles.settingRow}>
+                        <Text style={styles.settingName}>Number of Data Points:</Text>
+                        <Input
+                                placeholder='500'
+                                onChangeText={(val) => this.handleNumPointsChange(val)}
+                                inputContainerStyle={styles.textInputBox}
+                                inputStyle={styles.textInput}
+                                keyboardType="number-pad"
+                                value={this.state.dataPoints}
+                        />
+                    </View>
+                    <View style={styles.settingRow}>
+                        <Text style={styles.settingName}>Data Refresh Rate (s):</Text>
+                        <Input
+                                placeholder='10'
+                                onChangeText={(val) => this.handleRefreshRateChange(val)}
+                                inputContainerStyle={styles.textInputBox}
+                                inputStyle={styles.textInput}
+                                keyboardType="number-pad"
+                                value={this.state.refreshRate}
+                        />
+                    </View>
                 </View>
             </View>
         )
@@ -67,7 +109,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
     postNotificationToken,
-    postNotificationDelete
+    postNotificationDelete,
+    storeNumDataPoints,
+    storeRefreshRate
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);
@@ -97,5 +141,14 @@ const styles = StyleSheet.create({
     },
     settingName: {
         marginRight: 10
-    }
+    },
+    textInput: {
+        width: 300
+    },
+    textInputBox: {
+        width: 300,
+        borderWidth: 1,
+        paddingLeft: 5,
+        backgroundColor: "#FFF"
+    },
   });

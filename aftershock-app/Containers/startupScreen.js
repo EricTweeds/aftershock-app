@@ -7,7 +7,7 @@ import logo from "../assets/blue_logo.png";
 
 import { retrieveItem } from '../Tools/asyncStorageTool';
 
-import { wakeupServer, storeToken } from '../reducer.js';
+import { wakeupServer, storeToken, storeNumDataPoints, storeRefreshRate } from '../reducer.js';
 
 class StartupScreen extends Component {
     constructor(props) {
@@ -25,6 +25,12 @@ class StartupScreen extends Component {
           } else {
             this.props.navigation.navigate('Login');
           }
+        });
+        retrieveItem('numDataPoints').then((numDataPoints) => {
+            this.props.storeNumDataPoints(numDataPoints);
+        });
+        retrieveItem('refreshRate').then((refreshRate) => {
+            this.props.storeRefreshRate(refreshRate);
         });
         this._notificationSubscription = Notifications.addListener(this._handleNotifications);
     }
@@ -48,7 +54,9 @@ class StartupScreen extends Component {
 
 const mapDispatchToProps = {
     wakeupServer,
-    storeToken
+    storeToken,
+    storeNumDataPoints,
+    storeRefreshRate
 }
 
 export default connect(null, mapDispatchToProps)(StartupScreen);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text, Button, Picker } from "react-native";
+import { View, StyleSheet, Text, Button, Picker, Switch } from "react-native";
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { getPlayerData, postNotificationSend, getGameStarts, getGameData } from "../reducer";
 
@@ -16,6 +17,7 @@ class PlayerDetails extends Component {
         this.handlePointTouch = this.handlePointTouch.bind(this);
         this.handlePickerChange = this.handlePickerChange.bind(this);
         this.loadGameData = this.loadGameData.bind(this);
+        this.handleDataTypeChange = this.handleDataTypeChange.bind(this);
     }
 
     state = { game: 0};
@@ -25,13 +27,15 @@ class PlayerDetails extends Component {
         this.props.getPlayerData(player_id, this.props.token);
         this.props.getGameStarts(player_id, this.props.token);
         this.setState({id: player_id});
-        let intervalId = setInterval(this.loadGameData, 5000);
+        let refreshRate = this.props.refreshRate ? this.props.refreshRate : 5;
+        console.log(refreshRate, this.props.numDataPoints);
+        let intervalId = setInterval(this.loadGameData, refreshRate*1000);
         this.setState({intervalId});
     }
 
     async loadGameData() {
         try {
-            this.props.getGameData(this.state.id, this.state.game, this.props.token);
+            this.props.getGameData(this.state.id, this.state.game, this.props.token, this.props.numDataPoints);
         } catch (e) {
             console.log(e);
         }
@@ -59,6 +63,10 @@ class PlayerDetails extends Component {
         }
     }
 
+    handleDataTypeChange(value) {
+        this.setState({isRotational: value});
+    }
+
     sendNotification() {
         this.props.postNotificationSend("Injury Reported", this.props.token);
     }
@@ -67,7 +75,6 @@ class PlayerDetails extends Component {
         let player = this.props.playerDetails && this.props.playerDetails[this.state.id] ? this.props.playerDetails[this.state.id] : {};
         let games = this.props.gameStarts && this.props.gameStarts[this.state.id] ? this.props.gameStarts[this.state.id] : [];
         let gameData = this.props.gameData ? this.props.gameData.data : [];
-
         let riskColor;
         let riskText = "unknown";
 
@@ -88,7 +95,7 @@ class PlayerDetails extends Component {
                 <View style={styles.details}>
                     <View style={styles.statusRow}>
                         <Button title="Back to Team" onPress={() => this.handleBack()} />
-                        <Button title="Report Injury" onPress={() => this.sendNotification()} />
+                        <Button title="Report Injury" onPress={() => this.sendNotification()} disabled/>
                         {/* <Icon name="circle" type="font-awesome" color={active ? '#00bb00' : '#ff0000'} size={20} />
                         <Icon name={batteryIcon} type="font-awesome" color={batteryColor} /> */}
                     </View>
@@ -111,11 +118,11 @@ class PlayerDetails extends Component {
                         </View>
                         <View style={styles.dataColumn}>
                             <View style={styles.infoRow}><Text style={styles.info}>Age: </Text><Text style={styles.info}>{player.age}</Text></View>
-                            <View style={styles.infoRow}><Text style={styles.info}>Largest Impact: </Text><Text style={styles.info}>{player.largest_impact}g</Text></View>
+                            <View style={styles.infoRow}><Text style={styles.info}>Largest Impact: </Text><Text style={styles.info}>{player.largest_impact ? player.largest_impact.toPrecision(3): ""}g</Text></View>
                             <View style={styles.infoRow}>
                                 <Text style={styles.info}>Largest Rotational Impact: </Text>
                                 <View style={styles.rotationalRow}>
-                                    <Text style={styles.info}>{player.largest_rotation ? player.largest_rotation.toFixed(0) : ""} rad/s</Text>
+                                    <Text style={styles.info}>{player.largest_rotation ? player.largest_rotation.toPrecision(4) : ""} rad/s</Text>
                                     <Text style={{lineHeight: 10, fontSize: 10}}>2</Text>
                                 </View>
                             </View>
@@ -125,7 +132,7 @@ class PlayerDetails extends Component {
                 </View>
                 <View style={styles.currentGameData}>
                     <View style={styles.plot}>
-                        {gameData.length ? <GametimePlot data={gameData} handleTouch={this.handlePointTouch} selected={this.state.selected}/> : null}
+                        {gameData.length ? <GametimePlot data={gameData} handleTouch={this.handlePointTouch} selected={this.state.selected} isRotational={this.state.isRotational} /> : null}
                     </View>
                     <View style={styles.plotDetails}>
                             <View style={styles.pickerContainer}>
@@ -146,15 +153,27 @@ class PlayerDetails extends Component {
                                 </Picker>
                             </View>
                             {this.state.selected ? <View style={styles.pointData}>
-                            <View style={styles.pointRow}><Text style={styles.info}>Time: </Text><Text style={styles.info}>{this.state.selected.time} ms</Text></View>
-                            <View style={styles.pointRow}><Text style={styles.info}>Linear: </Text><Text style={styles.info}>{this.state.selected.acceleration}g</Text></View>
+                            <View style={styles.pointRow}><Text style={styles.info}>Time: </Text><Text style={styles.info}>{moment(this.state.selected.time).utcOffset(-8).format("H:mm:ss")}</Text></View>
+                            <View style={styles.pointRow}><Text style={styles.info}>Linear: </Text><Text style={styles.info}>{this.state.selected.acceleration.toPrecision(3)}g</Text></View>
                             <View style={styles.pointRow}><Text style={styles.info}>Rotational: </Text>
                                 <View style={styles.rotationalRow}>
-                                    <Text style={styles.info}>{this.state.selected.rotational} rad/s</Text>
+                                    <Text style={styles.info}>{this.state.selected.rotational.toPrecision(4)} rad/s</Text>
                                     <Text style={{lineHeight: 10, fontSize: 10}}>2</Text>
-                                </View></View>
+                                </View>
+                            </View>
+                            <View style={styles.pointRow}><Text style={styles.info}>Linear Risk: </Text><Text style={styles.info}>{this.state.selected.linearRisk}%</Text></View>
+                            <View style={styles.pointRow}><Text style={styles.info}>Rotational Risk: </Text><Text style={styles.info}>{this.state.selected.rotationalRisk}%</Text></View>
                             </View> : null}
-                            <Button title="More Details" />
+                            <View style={styles.toggleRow}>
+                                <Text>Linear</Text>
+                                <Switch 
+                                    onValueChange={this.handleDataTypeChange}
+                                    value={this.state.isRotational}
+                                    trackColor={{true: "#3b5998"}}
+                                    thumbColor="#8b9dc3"
+                                />
+                                <Text>Rotational</Text>
+                            </View>
                     </View>
                 </View>
             </View>
@@ -168,7 +187,9 @@ const mapStateToProps = state => {
         token: state.token,
         playerDetails: state.playerDetails,
         gameStarts: state.game_starts,
-        gameData: state.gameData
+        gameData: state.gameData,
+        numDataPoints: state.numDataPoints,
+        refreshRate: state.refreshRate
     }
 };
 
@@ -311,5 +332,9 @@ const styles = StyleSheet.create({
     pointRow: {
         flexDirection: "row",
         justifyContent: "space-between"
+    },
+    toggleRow: {
+        flexDirection: "row",
+        justifyContent: 'space-between'
     }
 });

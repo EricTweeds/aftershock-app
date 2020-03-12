@@ -8,21 +8,6 @@ export default class Card extends React.Component {
     }
 
     render() {
-        const { battery } = this.props;
-        let batteryIcon = "battery-empty";
-        let batteryColor = '#ff0000';
-        if (battery > 0 && battery <= 25) {
-            batteryIcon = "battery-quarter";
-        } else if (battery > 25 && battery <= 50) {
-            batteryIcon = "battery-half";
-            batteryColor = 'orange';
-        } else if (battery > 50 && battery <= 75) {
-            batteryIcon = "battery-three-quarters";
-            batteryColor = 'black';
-        } else if (battery > 75) {
-            batteryIcon = "battery-full";
-            batteryColor = 'black';
-        }
 
         let name = this.props.first_name[0] + ". " + this.props.last_name;
 
@@ -41,7 +26,7 @@ export default class Card extends React.Component {
                 </View>
                 <View style={styles.dataContainer}>
                     <Text style={styles.max}>Max Impact:</Text>
-                    <Text style={styles.max}>{this.props.largest_impact ? this.props.largest_impact.toFixed(2) + "g" : "--"}</Text>
+                    <Text style={styles.max}>{this.props.largest_impact ? this.props.largest_impact.toPrecision(3) + "g" : "--"}</Text>
                 </View>
             </View>
         );
